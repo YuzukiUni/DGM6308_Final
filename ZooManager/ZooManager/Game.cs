@@ -7,9 +7,10 @@ namespace ZooManager
     {
         static public List<List<Zone>> animalZones = new List<List<Zone>>();
         static public Zone holdingPen = new Zone(-1, -1, null);
-        static public int numCellsX = 11; 
-        static public int numCellsY = 11;
-
+        static public int numCellsX = 9; 
+        static public int numCellsY = 9;
+        static public int turnCount = 0;
+        public static int catCount { get; private set; } = 0;
         static public void SetUpGame()
         {
             for (var y = 0; y < numCellsY; y++)
@@ -23,6 +24,11 @@ namespace ZooManager
                 }
                 animalZones.Add(rowList);
             }
+
+            for (int i = 0; i < 3; i++)
+            {
+                generativeMice();
+            }
         }
 
         static public void ZoneClick(Zone clickedZone)
@@ -32,17 +38,7 @@ namespace ZooManager
             Console.Write("Held animal is ");
             Console.WriteLine(holdingPen.emoji == "" ? "none" : holdingPen.emoji);
             if (clickedZone.occupant != null) clickedZone.occupant.ReportLocation();
-            if (holdingPen.occupant == null && clickedZone.occupant != null)
-            {
-                // take animal from zone to holding pen
-                Console.WriteLine("Taking " + clickedZone.emoji);
-                holdingPen.occupant = clickedZone.occupant;
-                holdingPen.occupant.location.x = -1;
-                holdingPen.occupant.location.y = -1;
-                clickedZone.occupant = null;
-                ActivateAnimals();
-            }
-            else if (holdingPen.occupant != null && clickedZone.occupant == null)
+            if (holdingPen.occupant != null && clickedZone.occupant == null)
             {
                 // put animal in zone from holding pen
                 Console.WriteLine("Placing " + holdingPen.emoji);
@@ -51,6 +47,7 @@ namespace ZooManager
                 holdingPen.occupant = null;
                 Console.WriteLine("Empty spot now holds: " + clickedZone.emoji);
                 ActivateAnimals();
+                turnCount++;
             }
             else if (holdingPen.occupant != null && clickedZone.occupant != null)
             {
@@ -64,6 +61,7 @@ namespace ZooManager
                     holdingPen.occupant = null;
                     Console.WriteLine("Grass spot now holds: " + clickedZone.emoji);
                     ActivateAnimals();
+                    turnCount++;
                 }
                 else
                 {
@@ -71,12 +69,62 @@ namespace ZooManager
                     // Don't activate animals since user didn't get to do anything
                 }
             }
+            generativeMice();
         }
 
-        static public void AddToHolding(string occupantType)
+
+        static public void generativeMice()
+        {
+            Random random = new Random();
+            if (random.Next(0, 2) == 1)
+            {
+                bool foundEmptyZone = false;
+                while (!foundEmptyZone)
+                {
+                    int x = random.Next(0, numCellsX);
+                    int y = random.Next(0, numCellsY);
+                    if (animalZones[y][x].occupant == null)
+                    {
+                        Mouse newMouse = new Mouse("RandomMouse");
+                        animalZones[y][x].occupant = newMouse;
+                        Console.WriteLine("Generated a new mouse at: (" + x + ", " + y + ")");
+                        foundEmptyZone = true;
+                    }
+                }
+            }
+        }
+    
+    static public void AddToHolding(string occupantType)
         {
             if (holdingPen.occupant != null) return;
-            if (occupantType == "cat") holdingPen.occupant = new Cat("Fluffy");
+            if (occupantType == "cat")
+            {
+                if (catCount >= 5)
+                {
+                    // Create a list of all the cats' positions
+                    List<Tuple<int, int>> catPositions = new List<Tuple<int, int>>();
+                    for (int y = 0; y < numCellsY; y++)
+                    {
+                        for (int x = 0; x < numCellsX; x++)
+                        {
+                            if (animalZones[y][x].occupant is Cat)
+                            {
+                                catPositions.Add(new Tuple<int, int>(y, x));
+                            }
+                        }
+                    }
+
+                    // Randomly select a cat to remove
+                    Random rand = new Random();
+                    int index = rand.Next(catPositions.Count);
+                    Tuple<int, int> selectedCatPosition = catPositions[index];
+                    animalZones[selectedCatPosition.Item1][selectedCatPosition.Item2].occupant = null;
+                    catCount--;
+                    Console.WriteLine("Randomly removed a cat due to over limit.");
+                }
+                holdingPen.occupant = new Cat("Fluffy");
+                catCount++;
+            }
             if (occupantType == "mouse") holdingPen.occupant = new Mouse("Squeaky");
             if (occupantType == "grass") holdingPen.occupant = new Grass();
             if (occupantType == "boulder") holdingPen.occupant = new Boulder();

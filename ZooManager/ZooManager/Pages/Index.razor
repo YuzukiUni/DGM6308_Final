@@ -6,7 +6,10 @@
     button {
         width: 75px;
         height: 75px;
-        font-size: 50px;
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
         button.sm {
@@ -18,13 +21,24 @@
             font-size: 30px;
         }
 
+
     .blocked {
         background-color: black;
     }
+
+    .turn-count {
+        position: fixed;
+        top: 600px; 
+        right: 0;
+        padding-right: 20px; 
+        font-size: 24px;
+        z-index: 1000;
 </style>
 
 <div class="container">
-
+    <div class="turn-count">
+        <h1>Turn(s): @turnCount</h1>
+    </div>
     <div class="row">
         <div class="col">
             <hr />
@@ -40,12 +54,7 @@
                 <h2>🐱</h2>
             </button>
         </div>
-        <div class="col-1">
-            <button @onclick="@(() => Game.AddToHolding("mouse"))"
-                    type="button" class="sm btn btn-outline-dark">
-                <h2>🐭</h2>
-            </button>
-        </div>
+        
         <div class="col-1">
             <button @onclick="@(() => Game.AddToHolding("grass"))"
                     type="button" class="sm btn btn-outline-dark">
@@ -111,6 +120,8 @@
 </div>
 
 @code {
+    private int turnCount = 0; 
+
     protected override void OnInitialized()
     {
         Game.SetUpGame();
@@ -118,6 +129,13 @@
 
     private void OnZoneClick(Zone zone)
     {
-        Game.ZoneClick(zone); 
+        Game.ZoneClick(zone);
+        IncrementTurnCount();
+    }
+
+    private void IncrementTurnCount()
+    {
+        turnCount++;
+        StateHasChanged(); 
     }
 }

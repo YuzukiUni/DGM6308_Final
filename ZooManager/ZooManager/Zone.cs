@@ -4,8 +4,8 @@ namespace ZooManager
 {
     public class Zone
     {
-        public static int numCellsX = 11; 
-        public static int numCellsY = 11; 
+        public static int numCellsX = 9; 
+        public static int numCellsY = 9; 
         private Occupant _occupant = null;
         public Occupant occupant
         {

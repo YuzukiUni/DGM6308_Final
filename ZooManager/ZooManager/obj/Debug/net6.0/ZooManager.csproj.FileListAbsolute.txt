@@ -817,3 +817,4 @@ C:\Users\unila\OneDrive\Documents\GitHub\DGM6308_Final\ZooManager\ZooManager\obj
 C:\Users\unila\OneDrive\Documents\GitHub\DGM6308_Final\ZooManager\ZooManager\obj\Debug\net6.0\refint\ZooManager.dll
 C:\Users\unila\OneDrive\Documents\GitHub\DGM6308_Final\ZooManager\ZooManager\obj\Debug\net6.0\ZooManager.pdb
 C:\Users\unila\OneDrive\Documents\GitHub\DGM6308_Final\ZooManager\ZooManager\obj\Debug\net6.0\ref\ZooManager.dll
+C:\Users\unila\OneDrive\Documents\GitHub\DGM6308_Final\ZooManager\ZooManager\obj\Debug\net6.0\ZooManager.sourcelink.json

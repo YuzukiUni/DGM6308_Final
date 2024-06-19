@@ -7,8 +7,8 @@ namespace ZooManager
     {
         static public List<List<Zone>> animalZones = new List<List<Zone>>();
         static public Zone holdingPen = new Zone(-1, -1, null);
-        static public int numCellsX = 9; 
-        static public int numCellsY = 9;
+        static public int numCellsX = 11; 
+        static public int numCellsY = 11;
         static public int turnCount = 0;
         public static int catCount { get; private set; } = 0;
         static public void SetUpGame()
@@ -25,11 +25,17 @@ namespace ZooManager
                 animalZones.Add(rowList);
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
-                generativeMice();
+                // Generate Mice and Insect
+                generativeInsect();
+                generativeMouse();
             }
+
+            // Generate objects
+            generateObject();
         }
+
 
         static public void ZoneClick(Zone clickedZone)
         {
@@ -69,13 +75,16 @@ namespace ZooManager
                     // Don't activate animals since user didn't get to do anything
                 }
             }
-            generativeMice();
+            generativeInsect();
+            generativeMouse();
+
         }
 
 
-        static public void generativeMice()
+        static public void generativeMouse()
         {
             Random random = new Random();
+            // For each turn, generate new insect with 50%
             if (random.Next(0, 2) == 1)
             {
                 bool foundEmptyZone = false;
@@ -93,8 +102,70 @@ namespace ZooManager
                 }
             }
         }
-    
-    static public void AddToHolding(string occupantType)
+        static public void generativeInsect()
+        {
+            // For each turn, 50% to generate new insect
+            Random random = new Random();
+            if (random.Next(0, 2) == 1)
+            {
+                bool foundEmptyZone = false;
+                while (!foundEmptyZone)
+                {
+                    int x = random.Next(0, numCellsX);
+                    int y = random.Next(0, numCellsY);
+                    if (animalZones[y][x].occupant == null)
+                    {
+                        Insect newInsect = new Insect("RandomInsects");
+                        animalZones[y][x].occupant = newInsect;
+                        Console.WriteLine("Generated a new Insect at: (" + x + ", " + y + ")");
+                        foundEmptyZone = true;
+                    }
+                }
+            }
+        }
+        static public void generateObject()
+        {
+            Random random = new Random();
+            int numBoulders = random.Next(3, 6);
+            int numGrass = random.Next(3, 6);
+
+            for (int i = 0; i < numBoulders; i++)
+            {
+                bool emptyZone = false;
+                while (!emptyZone)
+                {
+                    int x = random.Next(0, numCellsX);
+                    int y = random.Next(0, numCellsY);
+                    if (animalZones[y][x].occupant == null)
+                    {
+                        Boulder newBoulder = new Boulder();
+                        animalZones[y][x].occupant = newBoulder;
+                        Console.WriteLine("Generated a new boulder at: (" + x + ", " + y + ")");
+                        emptyZone = true;
+                    }
+                }
+            }
+
+            for (int i = 0; i < numGrass; i++)
+            {
+                bool foundEmptyZone = false;
+                while (!foundEmptyZone)
+                {
+                    int x = random.Next(0, numCellsX);
+                    int y = random.Next(0, numCellsY);
+                    if (animalZones[y][x].occupant == null)
+                    {
+                        Grass newGrass = new Grass();
+                        animalZones[y][x].occupant = newGrass;
+                        Console.WriteLine("Generated a new grass at: (" + x + ", " + y + ")");
+                        foundEmptyZone = true;
+                    }
+                }
+            }
+        }
+
+
+        static public void AddToHolding(string occupantType)
         {
             if (holdingPen.occupant != null) return;
             if (occupantType == "cat")
@@ -127,10 +198,19 @@ namespace ZooManager
             }
             if (occupantType == "mouse") holdingPen.occupant = new Mouse("Squeaky");
             if (occupantType == "grass") holdingPen.occupant = new Grass();
-            if (occupantType == "boulder") holdingPen.occupant = new Boulder();
-            Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
-        }
+            if (occupantType == "boulder")
+            {
+                Boulder boulder = new Boulder();
+                Zone zone = Zone.zoneWithGrass();
+                if (zone != null)
+                {
+                    zone.occupant = boulder;
+                    holdingPen.occupant = boulder;
 
+                }
+                Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
+            }
+        }
         static public void ActivateAnimals()
         {
             for (var r = 1; r < 11; r++) // reaction times from 1 to 10
@@ -184,20 +264,69 @@ namespace ZooManager
             switch (d)
             {
                 case Direction.up:
-                    animalZones[y - 1][x].occupant = attacker;
+                    if (y > 0 && animalZones[y - 1][x].occupant is Mouse)
+                    {
+                        // 20% chance to spawn an insect
+                        if (new Random().NextDouble() < 0.2)
+                        {
+                            Insect newInsect = Insect.spawnInsect();
+                            animalZones[y - 1][x].occupant = newInsect;
+                        }
+                        else
+                        {
+                            animalZones[y - 1][x].occupant = null;
+                        }
+                    }
                     break;
                 case Direction.down:
-                    animalZones[y + 1][x].occupant = attacker;
+                    if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Mouse)
+                    {
+                        // 20% chance to spawn an insect
+                        if (new Random().NextDouble() < 0.2)
+                        {
+                            Insect newInsect = Insect.spawnInsect();
+                            animalZones[y + 1][x].occupant = newInsect;
+                        }
+                        else
+                        {
+                            animalZones[y + 1][x].occupant = null;
+                        }
+                    }
                     break;
                 case Direction.left:
-                    animalZones[y][x - 1].occupant = attacker;
+                    if (x > 0 && animalZones[y][x - 1].occupant is Mouse)
+                    {
+                        // 20% chance to spawn an insect
+                        if (new Random().NextDouble() < 0.2)
+                        {
+                            Insect newInsect = Insect.spawnInsect();
+                            animalZones[y][x - 1].occupant = newInsect;
+                        }
+                        else
+                        {
+                            animalZones[y][x - 1].occupant = null;
+                        }
+                    }
                     break;
                 case Direction.right:
-                    animalZones[y][x + 1].occupant = attacker;
+                    if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Mouse)
+                    {
+                        // 20% chance to spawn an insect
+                        if (new Random().NextDouble() < 0.2)
+                        {
+                            Insect newInsect = Insect.spawnInsect();
+                            animalZones[y][x + 1].occupant = newInsect;
+                        }
+                        else
+                        {
+                            animalZones[y][x + 1].occupant = null;
+                        }
+                    }
                     break;
             }
-            animalZones[y][x].occupant = null;
         }
+
+
 
         static public bool Retreat(Animal runner, Direction d)
         {

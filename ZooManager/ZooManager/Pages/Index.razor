@@ -54,6 +54,12 @@
                 <h2>🐱</h2>
             </button>
         </div>
+        <div class="col-1">
+            <button @onclick="@(() => Game.AddToHolding("snake"))"
+                    type="button" class="sm btn btn-outline-dark">
+                <h2>🐍</h2>
+            </button>
+        </div>
         
         <div class="col-1">
             <button @onclick="@(() => Game.AddToHolding("grass"))"
@@ -120,7 +126,7 @@
 </div>
 
 @code {
-    private int turnCount = 0; 
+    public int turnCount = 0; 
 
     protected override void OnInitialized()
     {

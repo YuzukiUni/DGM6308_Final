@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooManager", "ZooManager\ZooManager.csproj", "{01DAD351-492C-4C06-B718-4047D008F3ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZooManager", "ZooManager\ZooManager.csproj", "{01DAD351-492C-4C06-B718-4047D008F3ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53D6FCC2-692E-4075-B728-EAC022CEFBDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

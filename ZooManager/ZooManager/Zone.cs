@@ -4,9 +4,10 @@ namespace ZooManager
 {
     public class Zone
     {
-        public static int numCellsX = 9; 
-        public static int numCellsY = 9; 
+        public static int numCellsX = 11; 
+        public static int numCellsY = 11; 
         private Occupant _occupant = null;
+
         public Occupant occupant
         {
             get { return _occupant; }
@@ -54,12 +55,24 @@ namespace ZooManager
             location.y = y;
             this.occupant = occupant;
         }
-
+        public static Zone zoneWithGrass()
+        {
+            for (int y = 0; y < numCellsY; y++)
+            {
+                for (int x = 0; x < numCellsX; x++)
+                {
+                    if (Game.animalZones[y][x].occupant is Grass)
+                    {
+                        return Game.animalZones[y][x];
+                    }
+                }
+            }
+            return null; 
+        }
         public bool IsEdge()
         {
-            int midX = numCellsX / 2; 
-            int midY = numCellsY / 2;
-            return location.x >= midX - 1 && location.x <= midX + 1 && location.y >= midY - 1 && location.y <= midY + 1;
+            return location.x == 0 || location.x == numCellsX - 1 ||
+           location.y == 0 || location.y == numCellsY - 1;
         }
 
     }

@@ -8,7 +8,7 @@ namespace ZooManager
             emoji = "🐭";
             species = "mouse";
             this.name = name; // "this" to clarify instance vs. method parameter
-            reactionTime = new Random().Next(1, 4); // reaction time of 1 (fast) to 3
+            reactionTime = new Random().Next(2, 4); // reaction time of 2(fast) to 4
       
         }
 
@@ -65,11 +65,7 @@ namespace ZooManager
             }
             return false;
         }
-        public static Mouse RandomlyGenerateMouse()
-        {
-            string name = "Squeaky"; 
-            return new Mouse(name);
-        }
+  
     }
 }
 

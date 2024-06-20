@@ -4,6 +4,8 @@
     {
         private bool isOnGrass;
         private int turnsOnGrass = 0;
+        public static int numCellsX = 11;
+        public static int numCellsY = 11;
 
         public Cat(string name)
         {
@@ -56,30 +58,78 @@
             }
         }
 
-        public void Hunt()
+        public bool Flee()
+        {
+            if (Game.Seek(location.x, location.y, Direction.up, "snake"))
+            {
+                if (Game.Retreat(this, Direction.down)) return true;
+            }
+            if (Game.Seek(location.x, location.y, Direction.down, "snake"))
+            {
+                if (Game.Retreat(this, Direction.up)) return true;
+            }
+            if (Game.Seek(location.x, location.y, Direction.left, "snake"))
+            {
+                if (Game.Retreat(this, Direction.right)) return true;
+            }
+            if (Game.Seek(location.x, location.y, Direction.right, "snake"))
+            {
+                if (Game.Retreat(this, Direction.left)) return true;
+            }
+            return false;
+        }
+
+        public bool Hunt()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "mouse"))
             {
                 Game.Attack(this, Direction.up);
+                return true;
             }
             else if (Game.Seek(location.x, location.y, Direction.down, "mouse"))
             {
                 Game.Attack(this, Direction.down);
+                return true;
             }
             else if (Game.Seek(location.x, location.y, Direction.left, "mouse"))
             {
                 Game.Attack(this, Direction.left);
+                return true;
             }
             else if (Game.Seek(location.x, location.y, Direction.right, "mouse"))
             {
                 Game.Attack(this, Direction.right);
+                return true;
             }
+            return false;
         }
-
-        public void KickBoulder(Boulder boulder)
+        public void moveBoulders()
         {
-            int distance = 3; // set the distance to 3
-            boulder.location.x += distance;
+            if (location.y > 0 &&
+                Game.animalZones[location.y - 1][location.x].occupant is Boulder)
+            {
+                Boulder boulder = (Boulder)Game.animalZones[location.y - 1][location.x].occupant;
+                boulder.Move(Direction.down);
+            }
+            if (location.y < Game.numCellsY - 1 &&
+                Game.animalZones[location.y + 1][location.x].occupant is Boulder)
+            {
+                Boulder boulder = (Boulder)Game.animalZones[location.y + 1][location.x].occupant;
+                boulder.Move(Direction.up);
+            }
+
+            if (location.x > 0 &&
+                Game.animalZones[location.y][location.x - 1].occupant is Boulder)
+            {
+                Boulder boulder = (Boulder)Game.animalZones[location.y][location.x - 1].occupant;
+                boulder.Move(Direction.right);
+            }
+            if (location.x < Game.numCellsX - 1 &&
+                Game.animalZones[location.y][location.x + 1].occupant is Boulder)
+            {
+                Boulder boulder = (Boulder)Game.animalZones[location.y][location.x + 1].occupant;
+                boulder.Move(Direction.left);
+            }
         }
     }
 }

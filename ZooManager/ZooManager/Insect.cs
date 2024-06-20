@@ -12,8 +12,8 @@ namespace ZooManager
         {
             emoji = "🐞";
             species = "Insect";
-            this.name = name; // "this" to clarify instance vs. method parameter
-            reactionTime = new Random().Next(1, 3); // reaction time of 1 (fast) to 3
+            this.name = name;
+            reactionTime = new Random().Next(2, 4); // reaction time of 1 (fast) to 3
             boulderStayTurns = 1; // stay on boulder for 1 turn
             grassStayTurns = 3; // stay on grass for 3 turns
 
@@ -28,19 +28,19 @@ namespace ZooManager
 
         public bool Flee()
         {
-            if (Game.Seek(location.x, location.y, Direction.up, "snake") && !Game.Seek(location.x, location.y, Direction.up, "boulder"))
+            if (Game.Seek(location.x, location.y, Direction.up, "snake"))
             {
                 if (Game.Retreat(this, Direction.down)) return true;
             }
-            if (Game.Seek(location.x, location.y, Direction.down, "snake") && !Game.Seek(location.x, location.y, Direction.down, "boulder"))
+            if (Game.Seek(location.x, location.y, Direction.down, "snake"))
             {
                 if (Game.Retreat(this, Direction.up)) return true;
             }
-            if (Game.Seek(location.x, location.y, Direction.left, "snake") && !Game.Seek(location.x, location.y, Direction.left, "boulder"))
+            if (Game.Seek(location.x, location.y, Direction.left, "snake"))
             {
                 if (Game.Retreat(this, Direction.right)) return true;
             }
-            if (Game.Seek(location.x, location.y, Direction.right, "snake") && !Game.Seek(location.x, location.y, Direction.right, "boulder"))
+            if (Game.Seek(location.x, location.y, Direction.right, "snake"))
             {
                 if (Game.Retreat(this, Direction.left)) return true;
             }
@@ -49,29 +49,31 @@ namespace ZooManager
 
         public bool Hunt()
         {
-            if (Game.Seek(location.x, location.y, Direction.up, "cat") && !Game.Seek(location.x, location.y, Direction.up, "boulder"))
+            if (Game.Seek(location.x, location.y, Direction.up, "cat"))
             {
                 Game.Attack(this, Direction.up);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.down, "cat") && !Game.Seek(location.x, location.y, Direction.down, "boulder"))
+            else if (Game.Seek(location.x, location.y, Direction.down, "cat"))
             {
                 Game.Attack(this, Direction.down);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.left, "cat") && !Game.Seek(location.x, location.y, Direction.left, "boulder"))
+            else if (Game.Seek(location.x, location.y, Direction.left, "cat"))
             {
                 Game.Attack(this, Direction.left);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.right, "cat") && !Game.Seek(location.x, location.y, Direction.right, "boulder"))
+            else if (Game.Seek(location.x, location.y, Direction.right, "cat"))
             {
                 Game.Attack(this, Direction.right);
                 return true;
             }
             return false;
         }
-        public void Stay(Occupant occupant, int turnCount)
+  
+
+    public void Stay(Occupant occupant, int turnCount)
         {
             int stayTerrain = turnCount - lastTurn;
 

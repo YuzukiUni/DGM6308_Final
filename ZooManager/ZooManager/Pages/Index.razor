@@ -1,15 +1,11 @@
 ﻿@page "/"
 @using ZooManager
-
 <style>
 
     button {
         width: 75px;
         height: 75px;
-        font-size: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        font-size: 50px;
     }
 
         button.sm {
@@ -18,27 +14,32 @@
             height: 50px;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
+            font-size:20px;
         }
 
-
     .blocked {
-        background-color: black;
+        background-color: mediumvioletred;
     }
-
-    .turn-count {
-        position: fixed;
-        top: 600px; 
-        right: 0;
-        padding-right: 20px; 
-        font-size: 24px;
-        z-index: 1000;
 </style>
-
 <div class="container">
     <div class="turn-count">
         <h1>Turn(s): @turnCount</h1>
     </div>
+    @if (Game.gameEnd)
+    {
+        <div class="end-message">
+            @if (Game.gameWin)
+            {
+                <h1>You Win The Game!</h1>
+                <p>Press Y to Restart the game, and press N to end the game</p>
+            }
+            else
+            {
+                <h1>You Lose The Game!</h1>
+                <p>Press Y to Restart the game, and press N to end the game</p>
+            }
+        </div>
+    }
     <div class="row">
         <div class="col">
             <hr />
@@ -60,7 +61,7 @@
                 <h2>🐍</h2>
             </button>
         </div>
-        
+
         <div class="col-1">
             <button @onclick="@(() => Game.AddToHolding("grass"))"
                     type="button" class="sm btn btn-outline-dark">
@@ -73,7 +74,7 @@
                 <h2>🪨</h2>
             </button>
         </div>
-   
+
     </div>
     <div class="row">
         <div class="col">
@@ -126,7 +127,7 @@
 </div>
 
 @code {
-    public int turnCount = 0; 
+    public int turnCount = 0;
 
     protected override void OnInitialized()
     {
@@ -135,13 +136,36 @@
 
     private void OnZoneClick(Zone zone)
     {
-        Game.ZoneClick(zone);
-        IncrementTurnCount();
+        if (!Game.gameEnd)
+        {
+            Game.ZoneClick(zone);
+            IncrementTurnCount();
+        }
     }
 
     private void IncrementTurnCount()
     {
         turnCount++;
-        StateHasChanged(); 
+        Game.turnCount = turnCount; 
+        StateHasChanged();
+    }
+
+    private void OnKeyPress(KeyboardEventArgs e)
+    {
+        if (Game.gameEnd)
+        {
+            if (e.Key == "y" || e.Key == "Y")
+            {
+                Game.resetGame();
+                Console.WriteLine("Game Loading...");
+
+            }
+            else if (e.Key == "n" || e.Key == "N")
+            {
+                Game.endGame();
+                Console.WriteLine("GOOD GAME!");
+
+            }
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace ZooManager
 {
     public class Occupant
@@ -8,12 +7,19 @@ namespace ZooManager
         public string species;
         public Point location;
 
-        public Occupant CoveredBy { get; set; }  
+        public Occupant CoveredBy { get; set; }
 
         public void ReportLocation()
         {
             Console.WriteLine($"I am at {location.x},{location.y}");
         }
+
+        public  bool Move(Direction direction)
+        {
+            return Game.Move(this, direction);
+        }
     }
 }
+
+
 

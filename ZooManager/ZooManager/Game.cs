@@ -103,7 +103,7 @@ namespace ZooManager
                     int y = random.Next(0, numCellsY);
                     if (animalZones[y][x].occupant == null)
                     {
-                        Mouse newMouse = new Mouse("RandomMouse");
+                        Mouse newMouse = new Mouse("Squeak");
                         animalZones[y][x].occupant = newMouse;
                         Console.WriteLine("Generated a new mouse at: (" + x + ", " + y + ")");
                         foundEmptyZone = true;
@@ -124,9 +124,9 @@ namespace ZooManager
                     int y = random.Next(0, numCellsY);
                     if (animalZones[y][x].occupant == null)
                     {
-                        Insect newInsect = new Insect("RandomInsects");
+                        Insect newInsect = new Insect("Vomm");
                         animalZones[y][x].occupant = newInsect;
-                        Console.WriteLine("Generated a new Insect at: (" + x + ", " + y + ")");
+                        Console.WriteLine("Generated a new insect at: (" + x + ", " + y + ")");
                         emptyZone = true;
                     }
                 }
@@ -181,7 +181,7 @@ namespace ZooManager
             {
                 if (catCount >= 8)
                 {
-                    // Create a list of all the cats' positions
+                    // Create a list of all the cats' positions gor over 8 cats
                     List<Tuple<int, int>> catPositions = new List<Tuple<int, int>>();
                     for (int y = 0; y < numCellsY; y++)
                     {
@@ -194,7 +194,7 @@ namespace ZooManager
                         }
                     }
 
-                    // Randomly select a cat to remove
+                    // Randomly select a cat to remove if over 8 cats
                     Random rand = new Random();
                     int index = rand.Next(catPositions.Count);
                     Tuple<int, int> selectedCatPosition = catPositions[index];
@@ -307,6 +307,12 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y - 1}");
+                                // 20% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.2)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y - 1][x].occupant = newGrass;
+                                }
                             }
                             break;
                         case Direction.down:
@@ -317,6 +323,12 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y + 1}");
+                                // 20% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.2)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y +1][x].occupant = newGrass;
+                                }
                             }
                             break;
                         case Direction.left:
@@ -327,6 +339,12 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x - 1}, {y}");
+                                // 20% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.2)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y][x - 1].occupant = newGrass;
+                                }
                             }
                             break;
                         case Direction.right:
@@ -336,6 +354,12 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x + 1}, {y}");
+                                // 20% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.2)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y][x +1].occupant = newGrass;
+                                }
                             }
                             break;
                     }
@@ -404,58 +428,58 @@ namespace ZooManager
                     switch (d)
                     {
                         case Direction.up:
-                            if (y > 0 && animalZones[y - 1][x].occupant is Cat)
+                            if (y > 1 && animalZones[y - 2][x].occupant is Cat)
                             {
                                 // Insect eats the cat
-                                animalZones[y - 1][x].occupant = null;
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
+                                animalZones[y - 2][x].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 2}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    animalZones[y - 1][x].occupant = newGrass;
+                                    animalZones[y - 2][x].occupant = newGrass;
                                 }
                             }
                             break;
                         case Direction.down:
-                            if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Cat)
+                            if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat)
                             {
                                 // Insect eats the cat
-                                animalZones[y + 1][x].occupant = null;
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
+                                animalZones[y + 2][x].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    animalZones[y + 1][x].occupant = newGrass;
+                                    animalZones[y + 2][x].occupant = newGrass;
                                 }
                             }
                             break;
                         case Direction.left:
-                            if (x > 0 && animalZones[y][x - 1].occupant is Cat)
+                            if (x > 1 && animalZones[y][x - 2].occupant is Cat)
                             {
                                 // Insect eats the cat
-                                animalZones[y][x - 1].occupant = null;
-                                Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
+                                animalZones[y][x - 2].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x - 2}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    animalZones[y][x - 1].occupant = newGrass;
+                                    animalZones[y][x - 2].occupant = newGrass;
                                 }
                             }
                             break;
                         case Direction.right:
-                            if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Cat)
+                            if (x < numCellsX - 2 && animalZones[y][x + 2].occupant is Cat)
                             {
                                 // Insect eats the cat
-                                animalZones[y][x + 1].occupant = null;
-                                Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
+                                animalZones[y][x + 2].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x + 2}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    animalZones[y][x + 1].occupant = newGrass;
+                                    animalZones[y][x + 2].occupant = newGrass;
                                 }
                             }
                             break;
@@ -502,6 +526,7 @@ namespace ZooManager
 
             }
         }
+      
         static public bool Retreat(Animal runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");
@@ -573,7 +598,46 @@ namespace ZooManager
             }
             return false; // fallback
         }
-
+        public static void Die(Insect insect, int x, int y)
+        {
+            Console.WriteLine("The insect has encountered a boulder and died.");
+            // Remove the insect from the game
+            animalZones[y][x].occupant = null;
+            // 50% chance to spawn a new Insect in random direction
+            if (new Random().NextDouble() < 0.5)
+            {
+                Insect newInsect = Insect.spawnInsect();
+                // Randomly choose a direction
+                Direction d = (Direction)new Random().Next(4); 
+                switch (d)
+                {
+                    case Direction.up:
+                        if (y > 1)
+                        {
+                            animalZones[y - 2][x].occupant = newInsect;
+                        }
+                        break;
+                    case Direction.down:
+                        if (y < numCellsY - 2)
+                        {
+                            animalZones[y + 2][x].occupant = newInsect;
+                        }
+                        break;
+                    case Direction.left:
+                        if (x > 1)
+                        {
+                            animalZones[y][x - 2].occupant = newInsect;
+                        }
+                        break;
+                    case Direction.right:
+                        if (x < numCellsX - 2)
+                        {
+                            animalZones[y][x + 2].occupant = newInsect;
+                        }
+                        break;
+                }
+            }
+        }
 
         public static bool winCondition()
         {

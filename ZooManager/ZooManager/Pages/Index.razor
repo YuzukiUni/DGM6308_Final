@@ -7,20 +7,49 @@
     body {
         background-color: aliceblue;
     }
+    h1{
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size:36px;
+        color:mediumslateblue;
+    }
 
+    h5 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 36px;
+        color: mediumslateblue;
+        text-align:center;
+    }
     h3 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 32px;
         color: #3388bb;
     }
 
     h4 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 28px;
         color: darkcyan;
     }
 
     p {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 24px;
         color: blueviolet
+    }
+
+    p2 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 24px;
+        color: blueviolet;
+        text-align:center;
+    }
+
+    ul li {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 20px;
+        color: darkgoldenrod;
+        text-align: center;
+        text-decoration:none;
     }
 
     button {
@@ -42,25 +71,7 @@
         background-color: mediumvioletred;
     }
 </style>
-<div class="container">
-    <div class="turn-count">
-        <h1>Turn(s): @turnCount</h1>
-    </div>
-    @if (Game.gameEnd)
-    {
-        <div class="end-message">
-            @if (Game.gameWin)
-            {
-                <h1>You Win The Game!</h1>
-                <p>Press Y to Restart the game</p>
-            }
-            else
-            {
-                <h1>You Lose The Game!</h1>
-                <p>Press Y to Restart the game</p>
-            }
-        </div>
-    }
+
 
 
     <div class="row">
@@ -106,18 +117,39 @@
     </div>
     <div class="row">
         <div class="col-6">
-            <h1 style="text-align:end">Holding Pen:</h1>
-        </div><div class="col-6">
+            <h5 style="text-align:end">Holding Pen:</h5>
+        </div>
+        <div class="col-6">
             <button disabled type="button" class="btn btn-outline-dark">
                 <h2>@Game.holdingPen.emoji<sup>@Game.holdingPen.rtLabel</sup></h2>
             </button>
         </div>
     </div>
+
     <div class="row">
         <div class="col">
             <hr />
         </div>
     </div>
+<div class="container">
+    <div class="turn-count">
+        <h1>Turn(s): @turnCount</h1>
+    </div>
+    @if (Game.gameEnd)
+    {
+        <div class="end-message">
+            @if (Game.gameWin)
+            {
+                <h1>You Win The Game!</h1>
+                <p2>Press Y to Restart the game</p2>
+            }
+            else
+            {
+                <h1>You Lose The Game!</h1>
+                <p2>Press Y to Restart the game</p2>
+            }
+        </div>
+    }
     <div class="row">
         <div class="col">
             <table align="center">
@@ -151,6 +183,7 @@
 
         </div>
     </div>
+
     <div class="row">
         <div class="col">
             <hr />
@@ -164,16 +197,63 @@
             <br />
             <h4>Game Animals and Objects Introduction:</h4>
             <ul>
-                <ul>
-                    <li><p><strong>Cat:</strong> 🐱</p></li>
-                    <li><p><strong>Mouse:</strong>🐭</p></li>
-                    <li><p><strong>Insect:</strong>🐞</p></li>
-                    <li><p><strong>Snake:</strong>🐍</p></li>
-                    <li><p><strong>Grass:</strong>🌾</p></li>
-                    <li><p><strong>Boulder:</strong>🪨</p></li>
+                    <li>
+                        <p><strong>Cat:</strong> 🐱</p>
+                        <ul>
+                        <li>🐱 eats 🐭 </li>
+                        <li>🐱 killed by 🐞</li>
+                        <li>🐱 scared by 🐍</li>
+                        <li>🐱 dead spawn 🌾 with percentage</li>
+                        <li>🐱 bloked by 🪨 with retreat 1 more grid</li>
 
-                </ul>
+                        </ul>
+                        </li>
+                    <li>
+                        <p><strong>Mouse:</strong>🐭</p>
+                        <ul>
+                        <li>🐭 eats 🌾</li>
+                        <li>🐭 killed by 🐱 </li>
+                        <li>🐭 dead spawn 🐞 with percentage chance</li>
+                        <li>🐭 blocked by boulder 🪨</li>
+                        <li>🐭 scares 🐍</li>
 
+                        </ul>
+                        </li>
+                    <li>
+                        <p><strong>Insect:</strong>🐞</p>
+                        <ul>
+                        <li>🐞 kills 🐱 within 2 grids </li>
+                        <li>🐞 killed by 🐍 </li>
+                        <li>🐞 Insect is killed by 🪨, but has a 50% chance of resurrecting at a random location on the map. </li>
+                        <li>🐞 spawn if 🐭 dead </li>
+                        <li>🐞 pass trhough 🌾 </li>
+
+
+                        </ul>
+                        </li>
+                    <li>
+                        <p><strong>Snake:</strong>🐍</p>
+                        <ul>
+                        <li>🐍 eats 🐞</li>
+                        <li>🐍 scares 🐱</li>
+                        <li>🐍 scared by 🐭</li>
+                        <li>🐍 pass through 🪨</li>
+                        <li>🐍 kills 🐞 spawn 🌾 with percentage </li>
+
+                        </ul>
+                        </li>
+                    <li>
+                        <p><strong>Grass:</strong>🌾</p>
+                        <ul>
+                        <li>🌾replaced by 🪨 </li>
+                        </ul>
+                        </li>
+                    <li>
+                        <p><strong>Boulder:</strong>🪨</p>
+                    <ul>
+                        <li>🪨 replaces 🌾 </li>
+                    </ul>
+                        </li>
             </ul>
     </div>
 </div>
@@ -204,15 +284,16 @@
         Game.turnCount = turnCount;
         StateHasChanged();
     }
-
+    // Ref:https://learn.microsoft.com/zh-cn/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-8.0
     [JSInvokable]
+    // Play can input key to restart the game
     public async Task OnKeyPress(string key)
     {
         if (Game.gameEnd && (key == "y" || key == "Y"))
         {
             Game.resetGame();
-            turnCount = 20;  // 重置回合数
-            await InvokeAsync(StateHasChanged);  // 更新组件状态
+            turnCount = 20;  
+            await InvokeAsync(StateHasChanged);  
             Console.WriteLine("Game Loading...");
         }
     }

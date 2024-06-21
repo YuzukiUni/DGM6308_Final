@@ -10,19 +10,31 @@ namespace ZooManager
             emoji = "🐞";
             species = "insect";
             this.name = name;
-            reactionTime = new Random().Next(3,6); // reaction time of 1 (fast) to 3
-          
-
+            reactionTime = new Random().Next(3, 6); // reaction time of 1 (fast) to 3
         }
 
         public override void Activate()
         {
             base.Activate();
             Console.WriteLine("I am an insect. Vomm.");
-            if (!Hunt()) Flee();
-
+            if (encounterBoulder()) Game.Die(this, location.x, location.y);
+            else if (!Hunt()) Flee();
         }
-       
+
+        // Insect meets boulder will dead by collapse
+        public bool encounterBoulder()
+        {
+            if (Game.Seek(location.x, location.y, Direction.up, "boulder") ||
+                Game.Seek(location.x, location.y, Direction.down, "boulder") ||
+                Game.Seek(location.x, location.y, Direction.left, "boulder") ||
+                Game.Seek(location.x, location.y, Direction.right, "boulder"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "snake"))
@@ -68,9 +80,7 @@ namespace ZooManager
             }
             return false;
         }
-  
-
-    
+        // Spawning Insect if mouse killed by cat
         public static Insect spawnInsect()
         {
             string name = "Vomm";

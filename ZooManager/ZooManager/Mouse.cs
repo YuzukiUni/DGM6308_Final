@@ -20,7 +20,6 @@ namespace ZooManager
 
         }
        
-        /* Updated to work like Elephant Flee */
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "cat") && !Game.Seek(location.x, location.y, Direction.up, "boulder"))

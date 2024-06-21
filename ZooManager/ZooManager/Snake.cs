@@ -15,8 +15,9 @@
             base.Activate();
             Console.WriteLine("I am a snake. Hiss.");
             Hunt();
-        }
 
+        }
+       
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "mouse"))

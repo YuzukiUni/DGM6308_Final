@@ -24,8 +24,9 @@ namespace ZooManager
             base.Activate();
             Console.WriteLine("I am an insect. Vomm.");
             if (!Hunt()) Flee();
-        }
 
+        }
+       
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "snake"))

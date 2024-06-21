@@ -16,9 +16,10 @@ namespace ZooManager
         {
             base.Activate();
             Console.WriteLine("I am a mouse. Squeak.");
-            if (!Hunt()) Flee();
-        }
+            if (!Hunt()) Flee(); 
 
+        }
+       
         /* Updated to work like Elephant Flee */
         public bool Flee()
         {

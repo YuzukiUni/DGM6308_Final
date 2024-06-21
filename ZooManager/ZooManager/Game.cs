@@ -332,8 +332,8 @@ namespace ZooManager
                                 Console.WriteLine($"{attacker.name} eats the insect at {x + 1}, {y}");
                             }
                             break;
-            }
-            break;
+                    }
+                    break;
                 case Cat cat:
                     // Cat's attack behavior
                     switch (d)
@@ -344,7 +344,7 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x}, {y - 1}");
-                                if (new Random().NextDouble() < 0.2)
+                                if (new Random().NextDouble() < 0.05)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y - 1][x].occupant = newInsect;
@@ -357,7 +357,7 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x}, {y + 1}");
-                                if (new Random().NextDouble() < 0.2)
+                                if (new Random().NextDouble() < 0.05)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y + 1][x].occupant = newInsect;
@@ -370,7 +370,7 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x - 1}, {y}");
-                                if (new Random().NextDouble() < 0.2)
+                                if (new Random().NextDouble() < 0.05)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x - 1].occupant = newInsect;
@@ -383,7 +383,7 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x + 1}, {y}");
-                                if (new Random().NextDouble() < 0.2)
+                                if (new Random().NextDouble() < 0.05)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x + 1].occupant = newInsect;
@@ -403,8 +403,8 @@ namespace ZooManager
                                 // Insect eats the cat
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
-                                // 20% chance to spawn a Grass object
-                                if (new Random().NextDouble() < 0.2)
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y - 1][x].occupant = newGrass;
@@ -417,8 +417,8 @@ namespace ZooManager
                                 // Insect eats the cat
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
-                                // 20% chance to spawn a Grass object
-                                if (new Random().NextDouble() < 0.2)
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y + 1][x].occupant = newGrass;
@@ -431,8 +431,8 @@ namespace ZooManager
                                 // Insect eats the cat
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
-                                // 20% chance to spawn a Grass object
-                                if (new Random().NextDouble() < 0.2)
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x - 1].occupant = newGrass;
@@ -445,8 +445,8 @@ namespace ZooManager
                                 // Insect eats the cat
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
-                                // 20% chance to spawn a Grass object
-                                if (new Random().NextDouble() < 0.2)
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x + 1].occupant = newGrass;
@@ -494,9 +494,8 @@ namespace ZooManager
                     }
                     break;
 
-    }
+            }
         }
-
 
         static public bool Retreat(Animal runner, Direction d)
         {
@@ -561,7 +560,7 @@ namespace ZooManager
                         else if (animalZones[y - 1][x].occupant is Boulder)
                         {
                             Boulder boulder = (Boulder)animalZones[y - 1][x].occupant;
-                            if (boulder.Move(Direction.up)) // boulder moves in the same direction as the cat
+                            if (boulder.Kick(Direction.up)) // boulder moves in the same direction as the cat
                             {
                                 animalZones[y - 1][x].occupant = mover;
                                 animalZones[y][x].occupant = null;
@@ -582,7 +581,7 @@ namespace ZooManager
                         else if (animalZones[y + 1][x].occupant is Boulder)
                         {
                             Boulder boulder = (Boulder)animalZones[y + 1][x].occupant;
-                            if (boulder.Move(Direction.down)) // boulder moves in the same direction as the cat
+                            if (boulder.Kick(Direction.down)) // boulder moves in the same direction as the cat
                             {
                                 animalZones[y + 1][x].occupant = mover;
                                 animalZones[y][x].occupant = null;
@@ -603,7 +602,7 @@ namespace ZooManager
                         else if (animalZones[y][x - 1].occupant is Boulder)
                         {
                             Boulder boulder = (Boulder)animalZones[y][x - 1].occupant;
-                            if (boulder.Move(Direction.left)) // boulder moves in the same direction as the cat
+                            if (boulder.Kick(Direction.left)) // boulder moves in the same direction as the cat
                             {
                                 animalZones[y][x - 1].occupant = mover;
                                 animalZones[y][x].occupant = null;
@@ -624,7 +623,7 @@ namespace ZooManager
                         else if (animalZones[y][x + 1].occupant is Boulder)
                         {
                             Boulder boulder = (Boulder)animalZones[y][x + 1].occupant;
-                            if (boulder.Move(Direction.right)) // boulder moves in the same direction as the cat
+                            if (boulder.Kick(Direction.right)) // boulder moves in the same direction as the cat
                             {
                                 animalZones[y][x + 1].occupant = mover;
                                 animalZones[y][x].occupant = null;
@@ -685,10 +684,9 @@ namespace ZooManager
         }
         public static void endGame()
         {
-           gameEnd= true;
+            gameEnd = true;
             Console.WriteLine("GG！");
         }
 
     }
 }
-

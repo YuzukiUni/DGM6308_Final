@@ -79,6 +79,8 @@
             return false;
         }
 
+      
+
         public bool Hunt()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "mouse"))
@@ -109,27 +111,28 @@
                 Game.animalZones[location.y - 1][location.x].occupant is Boulder)
             {
                 Boulder boulder = (Boulder)Game.animalZones[location.y - 1][location.x].occupant;
-                boulder.Move(Direction.down);
+                boulder.Kick(Direction.down);
             }
             if (location.y < Game.numCellsY - 1 &&
                 Game.animalZones[location.y + 1][location.x].occupant is Boulder)
             {
                 Boulder boulder = (Boulder)Game.animalZones[location.y + 1][location.x].occupant;
-                boulder.Move(Direction.up);
+                boulder.Kick(Direction.up);
             }
 
             if (location.x > 0 &&
                 Game.animalZones[location.y][location.x - 1].occupant is Boulder)
             {
                 Boulder boulder = (Boulder)Game.animalZones[location.y][location.x - 1].occupant;
-                boulder.Move(Direction.right);
+                boulder.Kick(Direction.right);
             }
             if (location.x < Game.numCellsX - 1 &&
                 Game.animalZones[location.y][location.x + 1].occupant is Boulder)
             {
                 Boulder boulder = (Boulder)Game.animalZones[location.y][location.x + 1].occupant;
-                boulder.Move(Direction.left);
+                boulder.Kick(Direction.left);
             }
         }
+
     }
 }

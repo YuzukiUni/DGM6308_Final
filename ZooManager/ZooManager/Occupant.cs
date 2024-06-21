@@ -14,7 +14,7 @@ namespace ZooManager
             Console.WriteLine($"I am at {location.x},{location.y}");
         }
 
-        public  bool Move(Direction direction)
+        public  bool Kick(Direction direction)
         {
             return Game.Move(this, direction);
         }

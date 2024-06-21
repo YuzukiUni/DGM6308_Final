@@ -303,6 +303,7 @@ namespace ZooManager
                         case Direction.up:
                             if (y > 0 && animalZones[y - 1][x].occupant is Insect)
                             {
+                                Console.WriteLine($"Detected an insect at {x}, {y - 1}");
                                 // Snake eats the insect
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y - 1}");
@@ -311,6 +312,8 @@ namespace ZooManager
                         case Direction.down:
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Insect)
                             {
+                                Console.WriteLine($"Detected an insect at {x}, {y + 1}");
+
                                 // Snake eats the insect
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y + 1}");
@@ -319,6 +322,8 @@ namespace ZooManager
                         case Direction.left:
                             if (x > 0 && animalZones[y][x - 1].occupant is Insect)
                             {
+                                Console.WriteLine($"Detected an insect at {x-1}, {y }");
+
                                 // Snake eats the insect
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x - 1}, {y}");
@@ -327,6 +332,7 @@ namespace ZooManager
                         case Direction.right:
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Insect)
                             {
+                                Console.WriteLine($"Detected an insect at {x+1}, {y}");
                                 // Snake eats the insect
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x + 1}, {y}");
@@ -496,7 +502,6 @@ namespace ZooManager
 
             }
         }
-
         static public bool Retreat(Animal runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");
@@ -506,33 +511,61 @@ namespace ZooManager
             switch (d)
             {
                 case Direction.up:
-                    if (y > 0 && animalZones[y - 1][x].occupant == null)
+                    if (y > 0 && (animalZones[y - 1][x].occupant == null || (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake))))
                     {
-                        animalZones[y - 1][x].occupant = runner;
+                        if (animalZones[y - 1][x].occupant is Grass)
+                        {
+                            animalZones[y - 1][x].occupant.CoveredBy = runner;
+                        }
+                        else
+                        {
+                            animalZones[y - 1][x].occupant = runner;
+                        }
                         animalZones[y][x].occupant = null;
                         return true; // retreat was successful
                     }
                     return false; // retreat was not successful
                 case Direction.down:
-                    if (y < numCellsY - 1 && animalZones[y + 1][x].occupant == null)
+                    if (y < numCellsY - 1 && (animalZones[y + 1][x].occupant == null || (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Snake))))
                     {
-                        animalZones[y + 1][x].occupant = runner;
+                        if (animalZones[y + 1][x].occupant is Grass)
+                        {
+                            animalZones[y + 1][x].occupant.CoveredBy = runner;
+                        }
+                        else
+                        {
+                            animalZones[y + 1][x].occupant = runner;
+                        }
                         animalZones[y][x].occupant = null;
                         return true;
                     }
                     return false;
                 case Direction.left:
-                    if (x > 0 && animalZones[y][x - 1].occupant == null)
+                    if (x > 0 && (animalZones[y][x - 1].occupant == null || (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Snake))))
                     {
-                        animalZones[y][x - 1].occupant = runner;
+                        if (animalZones[y][x - 1].occupant is Grass)
+                        {
+                            animalZones[y][x - 1].occupant.CoveredBy = runner;
+                        }
+                        else
+                        {
+                            animalZones[y][x - 1].occupant = runner;
+                        }
                         animalZones[y][x].occupant = null;
                         return true;
                     }
                     return false;
                 case Direction.right:
-                    if (x < numCellsX - 1 && animalZones[y][x + 1].occupant == null)
+                    if (x < numCellsX - 1 && (animalZones[y][x + 1].occupant == null || (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Snake))))
                     {
-                        animalZones[y][x + 1].occupant = runner;
+                        if (animalZones[y][x + 1].occupant is Grass)
+                        {
+                            animalZones[y][x + 1].occupant.CoveredBy = runner;
+                        }
+                        else
+                        {
+                            animalZones[y][x + 1].occupant = runner;
+                        }
                         animalZones[y][x].occupant = null;
                         return true;
                     }
@@ -540,106 +573,8 @@ namespace ZooManager
             }
             return false; // fallback
         }
-        public static bool Move(Occupant mover, Direction d)
-        {
-            Console.WriteLine($"{mover.species} is moving {d.ToString()}");
-            int x = mover.location.x;
-            int y = mover.location.y;
 
-            switch (d)
-            {
-                case Direction.up:
-                    if (y > 0)
-                    {
-                        if (animalZones[y - 1][x].occupant == null)
-                        {
-                            animalZones[y - 1][x].occupant = mover;
-                            animalZones[y][x].occupant = null;
-                            return true; // move was successful
-                        }
-                        else if (animalZones[y - 1][x].occupant is Boulder)
-                        {
-                            Boulder boulder = (Boulder)animalZones[y - 1][x].occupant;
-                            if (boulder.Kick(Direction.up)) // boulder moves in the same direction as the cat
-                            {
-                                animalZones[y - 1][x].occupant = mover;
-                                animalZones[y][x].occupant = null;
-                                return true; // move was successful
-                            }
-                        }
-                    }
-                    break;
-                case Direction.down:
-                    if (y < Game.numCellsY - 1)
-                    {
-                        if (animalZones[y + 1][x].occupant == null)
-                        {
-                            animalZones[y + 1][x].occupant = mover;
-                            animalZones[y][x].occupant = null;
-                            return true; // move was successful
-                        }
-                        else if (animalZones[y + 1][x].occupant is Boulder)
-                        {
-                            Boulder boulder = (Boulder)animalZones[y + 1][x].occupant;
-                            if (boulder.Kick(Direction.down)) // boulder moves in the same direction as the cat
-                            {
-                                animalZones[y + 1][x].occupant = mover;
-                                animalZones[y][x].occupant = null;
-                                return true; // move was successful
-                            }
-                        }
-                    }
-                    break;
-                case Direction.left:
-                    if (x > 0)
-                    {
-                        if (animalZones[y][x - 1].occupant == null)
-                        {
-                            animalZones[y][x - 1].occupant = mover;
-                            animalZones[y][x].occupant = null;
-                            return true; // move was successful
-                        }
-                        else if (animalZones[y][x - 1].occupant is Boulder)
-                        {
-                            Boulder boulder = (Boulder)animalZones[y][x - 1].occupant;
-                            if (boulder.Kick(Direction.left)) // boulder moves in the same direction as the cat
-                            {
-                                animalZones[y][x - 1].occupant = mover;
-                                animalZones[y][x].occupant = null;
-                                return true; // move was successful
-                            }
-                        }
-                    }
-                    break;
-                case Direction.right:
-                    if (x < Game.numCellsX - 1)
-                    {
-                        if (animalZones[y][x + 1].occupant == null)
-                        {
-                            animalZones[y][x + 1].occupant = mover;
-                            animalZones[y][x].occupant = null;
-                            return true; // move was successful
-                        }
-                        else if (animalZones[y][x + 1].occupant is Boulder)
-                        {
-                            Boulder boulder = (Boulder)animalZones[y][x + 1].occupant;
-                            if (boulder.Kick(Direction.right)) // boulder moves in the same direction as the cat
-                            {
-                                animalZones[y][x + 1].occupant = mover;
-                                animalZones[y][x].occupant = null;
-                                return true; // move was successful
-                            }
-                        }
-                    }
-                    break;
-            }
-            return false; // fallback
-        }
 
-        public void RemoveBoulder(Boulder boulder)
-        {
-            boulders.Remove(boulder);
-        }
         public static bool winCondition()
         {
             int insectCount = 0;

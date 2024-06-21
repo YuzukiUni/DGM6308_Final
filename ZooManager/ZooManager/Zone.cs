@@ -55,20 +55,7 @@ namespace ZooManager
             location.y = y;
             this.occupant = occupant;
         }
-        public static Zone zoneWithGrass()
-        {
-            for (int y = 0; y < numCellsY; y++)
-            {
-                for (int x = 0; x < numCellsX; x++)
-                {
-                    if (Game.animalZones[y][x].occupant is Grass)
-                    {
-                        return Game.animalZones[y][x];
-                    }
-                }
-            }
-            return null; 
-        }
+       
         public bool IsEdge()
         {
             return location.x == 0 || location.x == numCellsX - 1 ||

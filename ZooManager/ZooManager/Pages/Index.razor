@@ -1,6 +1,27 @@
 ﻿@page "/"
 @using ZooManager
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
 <style>
+    body {
+        background-color: aliceblue;
+    }
+
+    h3 {
+        font-size: 32px;
+        color: #3388bb;
+    }
+
+    h4 {
+        font-size: 28px;
+        color: darkcyan;
+    }
+
+    p {
+        font-size: 24px;
+        color: blueviolet
+    }
 
     button {
         width: 75px;
@@ -14,7 +35,7 @@
             height: 50px;
             justify-content: center;
             align-items: center;
-            font-size:20px;
+            font-size: 20px;
         }
 
     .blocked {
@@ -31,15 +52,17 @@
             @if (Game.gameWin)
             {
                 <h1>You Win The Game!</h1>
-                <p>Press Y to Restart the game, and press N to end the game</p>
+                <p>Press Y to Restart the game</p>
             }
             else
             {
                 <h1>You Lose The Game!</h1>
-                <p>Press Y to Restart the game, and press N to end the game</p>
+                <p>Press Y to Restart the game</p>
             }
         </div>
     }
+
+
     <div class="row">
         <div class="col">
             <hr />
@@ -103,37 +126,69 @@
                     <tr>
                         @for (var x = 0; x < Game.numCellsX; x++)
                         {
-                            var zone = Game.animalZones[y][x];
-                            string blockedClass = zone.IsBlocked ? "blocked" : "";
-                            <td>
-                                <button @onclick="@(() => OnZoneClick(zone))"
-                                        type="button" class="btn btn-outline-dark @blockedClass">
-                                    @if (zone.occupant != null)
-                                    {
-                                        <h2>@zone.emoji</h2>
-                                    }
-                                    else
-                                    {
-                                        <h2></h2>
-                                    }
-                                </button>
-                            </td>
+                            if (y < Game.animalZones.Count && x < Game.animalZones[y].Count)
+                            {
+                                var zone = Game.animalZones[y][x];
+                                string blockedClass = zone.IsBlocked ? "blocked" : "";
+                                <td>
+                                    <button @onclick="@(() => OnZoneClick(zone))"
+                                            type="button" class="btn btn-outline-dark @blockedClass">
+                                        @if (zone.occupant != null)
+                                        {
+                                            <h2>@zone.emoji</h2>
+                                        }
+                                        else
+                                        {
+                                            <h2></h2>
+                                        }
+                                    </button>
+                                </td>
+                            }
                         }
                     </tr>
                 }
             </table>
+
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Welcome to ZooManager!</h3>
+            <h4> Game Introduction:</h4>
+            <p>Players must eliminate all rats and insects within 20 rounds in order to establish a pristine zoo environment.</p>
+            <br />
+            <h4>Game Animals and Objects Introduction:</h4>
+            <ul>
+                <ul>
+                    <li><p><strong>Cat:</strong> 🐱</p></li>
+                    <li><p><strong>Mouse:</strong>🐭</p></li>
+                    <li><p><strong>Insect:</strong>🐞</p></li>
+                    <li><p><strong>Snake:</strong>🐍</p></li>
+                    <li><p><strong>Grass:</strong>🌾</p></li>
+                    <li><p><strong>Boulder:</strong>🪨</p></li>
+
+                </ul>
+
+            </ul>
+    </div>
 </div>
-
+</div>
 @code {
-    public int turnCount = 0;
+    public int turnCount = 20;
+    private DotNetObjectReference<Index> objRef;
+    private Game game;  
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Game.SetUpGame();
+        objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("keydownListener.listen", objRef);
+        game = new Game(); 
     }
-
     private void OnZoneClick(Zone zone)
     {
         if (!Game.gameEnd)
@@ -145,27 +200,20 @@
 
     private void IncrementTurnCount()
     {
-        turnCount++;
-        Game.turnCount = turnCount; 
+        turnCount--;
+        Game.turnCount = turnCount;
         StateHasChanged();
     }
 
-    private void OnKeyPress(KeyboardEventArgs e)
+    [JSInvokable]
+    public async Task OnKeyPress(string key)
     {
-        if (Game.gameEnd)
+        if (Game.gameEnd && (key == "y" || key == "Y"))
         {
-            if (e.Key == "y" || e.Key == "Y")
-            {
-                Game.resetGame();
-                Console.WriteLine("Game Loading...");
-
-            }
-            else if (e.Key == "n" || e.Key == "N")
-            {
-                Game.endGame();
-                Console.WriteLine("GOOD GAME!");
-
-            }
+            Game.resetGame();
+            turnCount = 20;  // 重置回合数
+            await InvokeAsync(StateHasChanged);  // 更新组件状态
+            Console.WriteLine("Game Loading...");
         }
     }
 }

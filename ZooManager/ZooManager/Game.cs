@@ -8,17 +8,23 @@ namespace ZooManager
     {
         static public List<List<Zone>> animalZones = new List<List<Zone>>();
         static public Zone holdingPen = new Zone(-1, -1, null);
-        static public int numCellsX = 11; 
+        static public int numCellsX = 11;
         static public int numCellsY = 11;
-        static public int turnCount = 0;
+        static public int turnCount = 20;
         public static int catCount { get; private set; } = 0;
         public static int snakeCount { get; private set; } = 0;
         public List<Cat> cats;
         public List<Boulder> boulders;
         public static bool gameWin = false;
         public static bool gameEnd = false;
+
+        public Game()
+        {
+            SetUpGame();
+        }
         public static void SetUpGame()
         {
+            animalZones.Clear();
             for (var y = 0; y < numCellsY; y++)
             {
                 List<Zone> rowList = new List<Zone>();
@@ -42,8 +48,7 @@ namespace ZooManager
             generateObject();
         }
 
-
-        static public void ZoneClick(Zone clickedZone)
+        public static void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
             Console.WriteLine(clickedZone.emoji == "" ? "none" : clickedZone.emoji);
@@ -59,7 +64,6 @@ namespace ZooManager
                 holdingPen.occupant = null;
                 Console.WriteLine("Empty spot now holds: " + clickedZone.emoji);
                 ActivateAnimals();
-                turnCount++;
             }
             else if (holdingPen.occupant != null && clickedZone.occupant != null)
             {
@@ -73,7 +77,6 @@ namespace ZooManager
                     holdingPen.occupant = null;
                     Console.WriteLine("Grass spot now holds: " + clickedZone.emoji);
                     ActivateAnimals();
-                    turnCount++;
                 }
                 else
                 {
@@ -81,9 +84,9 @@ namespace ZooManager
                     // Don't activate animals since user didn't get to do anything
                 }
             }
-            generativeInsect();
             generativeMouse();
-
+            turnCount--;
+            winCondition();
         }
 
 
@@ -235,14 +238,11 @@ namespace ZooManager
             if (occupantType == "grass") holdingPen.occupant = new Grass();
             if (occupantType == "boulder")
             {
+                // Create a new boulder
                 Boulder boulder = new Boulder();
-                Zone zone = Zone.zoneWithGrass();
-                if (zone != null)
-                {
-                    zone.occupant = boulder;
-                    holdingPen.occupant = boulder;
 
-                }
+                // Only place the boulder in the holding pen
+                holdingPen.occupant = boulder;
                 Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
             }
         }
@@ -664,19 +664,24 @@ namespace ZooManager
                 gameEnd = true;
                 gameWin = true;
             }
-            else if (turnCount > 20)
+            if (turnCount <= 0)
             {
                 gameEnd = true;
-                Console.WriteLine("You get over 20 turns, You lose !");
+                Console.WriteLine("You have no more turns, You lose !");
             }
+
             return gameEnd;
         }
 
         public static void resetGame()
         {
             animalZones.Clear();
-            turnCount = 0;
+            turnCount = 20;
+            gameEnd = false;
+            gameWin = false;
             SetUpGame();
+
+            Console.WriteLine("Game Loading...");
         }
         public static void endGame()
         {

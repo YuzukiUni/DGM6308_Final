@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Iqay7MZFaFVgY4aUldksXIuG7GGeA3qCK0i5E37u9Lo=",
+  "Hash": "ef8sr9e6zuarz/7JWdpScS1yXP/dCaKi78KC5FyPFvA=",
   "Source": "ZooManager",
   "BasePath": "/",
   "Mode": "Root",
@@ -7900,6 +7900,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\wwwroot\\js\\site.js",
+      "SourceId": "ZooManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "js/site.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
       "Identity": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\wwwroot\\sample-data\\weather.json",

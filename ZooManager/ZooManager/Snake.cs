@@ -7,7 +7,7 @@
             emoji = "🐍";
             species = "snake";
             this.name = name;
-            reactionTime = new Random().Next(1, 2);
+            reactionTime = new Random().Next(2,6);
         }
 
         public override void Activate()

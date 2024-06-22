@@ -8,7 +8,7 @@
             emoji = "🐱";
             species = "cat";
             this.name = name;
-            reactionTime = new Random().Next(1, 6); // reaction time 1 (fast) to 5 (medium)Cat
+            reactionTime = new Random().Next(3, 5); // reaction time 1 (fast) to 5 (medium)Cat
         }
 
         public override void Activate()

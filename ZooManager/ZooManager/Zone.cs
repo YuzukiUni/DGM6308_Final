@@ -55,12 +55,15 @@ namespace ZooManager
             location.y = y;
             this.occupant = occupant;
         }
-       
+
         public bool IsEdge()
         {
             return location.x == 0 || location.x == numCellsX - 1 ||
-           location.y == 0 || location.y == numCellsY - 1;
+                   location.y == 0 || location.y == numCellsY - 1 ||
+                   (location.x >= numCellsX / 2 - 1 && location.x <= numCellsX / 2 + 1 &&
+                    location.y >= numCellsY / 2 - 1 && location.y <= numCellsY / 2 + 1);
         }
+
 
     }
 }

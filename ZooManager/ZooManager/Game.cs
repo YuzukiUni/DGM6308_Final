@@ -43,11 +43,21 @@ namespace ZooManager
                 animalZones.Add(rowList);
             }
 
-            for (int i = 4; i < 8; i++)
+            // Generate Mice and Insect 4-6 total
+            Random random = new Random();
+            int totalMice = random.Next(2, 4); // Generate a random number between 2 and 4 for mice
+            int totalInsects = random.Next(2, 4); // Generate a random number between 2 and 4 for insects
+
+            // Generate the mice
+            for (int i = 0; i < totalMice; i++)
             {
-                // Generate Mice and Insect
-                generativeInsect();
                 generativeMouse();
+            }
+
+            // Generate the insects
+            for (int i = 0; i < totalInsects; i++)
+            {
+                generativeInsect();
             }
 
             // Generate objects
@@ -98,67 +108,91 @@ namespace ZooManager
             // Check the win condition after each turn to see if the game has ended.
             winCondition();
         }
+        public static void endTurn()
+        {
+            // At the end of each turn, randomly generate 0-1 mouse or 0-1 insect
+            Random random = new Random();
+            if (random.Next(0, 2) == 0)
+            {
+                generativeMouse();
+            }
+            else
+            {
+                generativeInsect();
+            }
+        }
 
-     static public void generativeMouse()
+        // Randomly generate mouse
+        static public void generativeMouse()
         {
             Random random = new Random();
-            // For each turn, generate new mouse with 0-3
-            if (random.Next(0, 4) == 1)
+            List<Zone> emptyZones = new List<Zone>();
+            // Find all empty and unblocked zones to place
+            for (int y = 0; y < numCellsY; y++)
             {
-                bool foundEmptyZone = false;
-                // Looking for an empty zone in the animalZones grid to place a new Mouse object
-                while (!foundEmptyZone)
+                for (int x = 0; x < numCellsX; x++)
                 {
-                    int x = random.Next(0, numCellsX);
-                    int y = random.Next(0, numCellsY);
-                    if (animalZones[y][x].occupant == null)
+                    if (animalZones[y][x].occupant == null && !animalZones[y][x].IsBlocked)
                     {
-                        Mouse newMouse = new Mouse("Sneaky");
-                        animalZones[y][x].occupant = newMouse;
-                        Console.WriteLine("Generated a new mouse at: (" + x + ", " + y + ")");
-                        foundEmptyZone = true;
+                        emptyZones.Add(animalZones[y][x]);
                     }
                 }
             }
+            // If there are any empty and unblocked zones, place a new Mouse
+            if (emptyZones.Count > 0)
+            {
+                int index = random.Next(emptyZones.Count);
+                Mouse newMouse = new Mouse("Sneaky");
+                emptyZones[index].occupant = newMouse;
+                Console.WriteLine("Generated a new mouse at: (" + emptyZones[index].location.x + ", " + emptyZones[index].location.y + ")");
+            }
         }
+
+        // Randomly generate insect
         static public void generativeInsect()
         {
-            // For each turn,  to generate new insect with 0-2
             Random random = new Random();
-            if (random.Next(0, 4) == 1)
+            List<Zone> emptyZones = new List<Zone>();
+            // Find all empty and unblocked zones to place
+            for (int y = 0; y < numCellsY; y++)
             {
-                bool emptyZone = false;
-                while (!emptyZone)
+                for (int x = 0; x < numCellsX; x++)
                 {
-                    // Looking for an empty zone in the animalZones grid to place a new Insect object
-                    int x = random.Next(0, numCellsX);
-                    int y = random.Next(0, numCellsY);
-                    if (animalZones[y][x].occupant == null)
+                    if (animalZones[y][x].occupant == null && !animalZones[y][x].IsBlocked)
                     {
-                        Insect newInsect = new Insect("Vomm");
-                        animalZones[y][x].occupant = newInsect;
-                        Console.WriteLine("Generated a new insect at: (" + x + ", " + y + ")");
-                        emptyZone = true;
+                        emptyZones.Add(animalZones[y][x]);
                     }
                 }
             }
+            // If there are any empty and unblocked zones, place a new Insect
+            if (emptyZones.Count > 0)
+            {
+                int index = random.Next(emptyZones.Count);
+                Insect newInsect = new Insect("Vomm");
+                emptyZones[index].occupant = newInsect;
+                Console.WriteLine("Generated a new insect at: (" + emptyZones[index].location.x + ", " + emptyZones[index].location.y + ")");
+            }
         }
+
+        // Generate objects in the game, including grass and boulder
         static public void generateObject()
         {
             Random random = new Random();
             int numBoulders = random.Next(3, 7);
             int numGrass = random.Next(3, 7);
-
-            for (int i = 0; i < numBoulders; i++)
+            for (int i = 0; i < numBoulders; i++) 
             {
                 bool emptyZone = false;
-                // Looking for an empty zone in the animalZones grid to place a new  boulders
+
+                // Keep looking for an empty zone in the animalZones grid to place a new boulder
                 while (!emptyZone)
                 {
                     int x = random.Next(0, numCellsX);
                     int y = random.Next(0, numCellsY);
+
                     if (animalZones[y][x].occupant == null)
                     {
+                        // If it is, create a new Boulder object and place it in the zone
                         Boulder newBoulder = new Boulder();
                         animalZones[y][x].occupant = newBoulder;
                         Console.WriteLine("Generated a new boulder at: (" + x + ", " + y + ")");
@@ -167,14 +201,18 @@ namespace ZooManager
                 }
             }
 
+            //Generate the specified number of grass
             for (int i = 0; i < numGrass; i++)
             {
                 bool foundEmptyZone = false;
-                // Looking for an empty zone in the animalZones grid to place a new grasses
+
+                // Keep looking for an empty zone in the animalZones grid to place a new grass
                 while (!foundEmptyZone)
                 {
                     int x = random.Next(0, numCellsX);
                     int y = random.Next(0, numCellsY);
+                    // Check if the zone at the generated coordinates is empty
+                    // If it is, create a new Grass object and place it in the zone
                     if (animalZones[y][x].occupant == null)
                     {
                         Grass newGrass = new Grass();
@@ -185,7 +223,6 @@ namespace ZooManager
                 }
             }
         }
-
 
         //Tuple Ref:https://learn.microsoft.com/en-us/dotnet/api/system.tuple-2?view=net-8.0
         static public void AddToHolding(string occupantType)
@@ -693,7 +730,6 @@ namespace ZooManager
                 gameWin = true;
                 winCount++;
                 Console.WriteLine("You wins !");
-
             }
             if (turnCount <= 0)
             {
@@ -701,7 +737,6 @@ namespace ZooManager
                 loseCount++;
                 Console.WriteLine("You have no more turns, You lose !");
             }
-
             return gameEnd;
         }
 
@@ -713,7 +748,6 @@ namespace ZooManager
             gameEnd = false;
             gameWin = false;
             SetUpGame();
-
             Console.WriteLine("Game Loading...");
         }
         public static void endGame()
@@ -721,6 +755,5 @@ namespace ZooManager
             gameEnd = true;
             Console.WriteLine("GG！");
         }
-
     }
 }

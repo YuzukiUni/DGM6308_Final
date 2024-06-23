@@ -280,6 +280,7 @@
     private void IncrementTurnCount()
     {
         turnCount--;
+        Game.endTurn();
         Game.turnCount = turnCount;
         StateHasChanged();
     }

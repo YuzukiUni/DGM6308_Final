@@ -8,7 +8,7 @@
             emoji = "🐱";
             species = "cat";
             this.name = name;
-            reactionTime = new Random().Next(3, 5); // reaction time 1 (fast) to 5 (medium)Cat
+            reactionTime = new Random().Next(1, 7); // reaction time 1 to 7 Cat
         }
 
         public override void Activate()
@@ -65,6 +65,7 @@
             return false;
         }
 
+        // The cat must avoid boulders for two grids, regardless of other animals being in the route.
         public bool avoidBoulder()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "boulder"))

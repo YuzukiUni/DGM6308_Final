@@ -13,6 +13,7 @@ namespace ZooManager
             get { return _occupant; }
             set
             {
+                // If the zone is on the edge, it cannot have an occupant.
                 if (IsEdge())
                 {
                     _occupant = null;
@@ -56,6 +57,7 @@ namespace ZooManager
             this.occupant = occupant;
         }
 
+        // Check if the blocked zone is on the edge of the grid or in the center.
         public bool IsEdge()
         {
             return location.x == 0 || location.x == numCellsX - 1 ||
@@ -63,8 +65,6 @@ namespace ZooManager
                    (location.x >= numCellsX / 2 - 1 && location.x <= numCellsX / 2 + 1 &&
                     location.y >= numCellsY / 2 - 1 && location.y <= numCellsY / 2 + 1);
         }
-
-
     }
 }
 

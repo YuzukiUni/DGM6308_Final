@@ -10,7 +10,7 @@ namespace ZooManager
             emoji = "🐞";
             species = "insect";
             this.name = name;
-            reactionTime = new Random().Next(1, 4); // reaction time of 1 (fast) to 3
+            reactionTime = new Random().Next(1, 4); // reaction time of 1 (fast) to 4
         }
 
         public override void Activate()

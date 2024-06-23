@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace ZooManager
 {
@@ -17,6 +18,8 @@ namespace ZooManager
         public List<Boulder> boulders;
         public static bool gameWin = false;
         public static bool gameEnd = false;
+        public static int winCount { get; private set; } = 0;
+        public static int loseCount { get; private set; } = 0;
 
         public Game()
         {
@@ -24,20 +27,23 @@ namespace ZooManager
         }
         public static void SetUpGame()
         {
+            // Clear the game for each round
             animalZones.Clear();
+            // Note one-line variation of for loop below!
             for (var y = 0; y < numCellsY; y++)
             {
                 List<Zone> rowList = new List<Zone>();
                 for (var x = 0; x < numCellsX; x++)
                 {
                     Zone zone = new Zone(x, y);
+                    // Set the zone as blocked if it is on the edge of the game grid.
                     zone.IsBlocked = zone.IsEdge();
                     rowList.Add(zone);
                 }
                 animalZones.Add(rowList);
             }
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 4; i < 8; i++)
             {
                 // Generate Mice and Insect
                 generativeInsect();
@@ -57,8 +63,8 @@ namespace ZooManager
             if (clickedZone.occupant != null) clickedZone.occupant.ReportLocation();
             if (holdingPen.occupant != null && clickedZone.occupant == null)
             {
-                // put animal in zone from holding pen
-                Console.WriteLine("Placing " + holdingPen.emoji);
+                // Take animal in zone from holding pen
+                Console.WriteLine("Taking " + holdingPen.emoji);
                 clickedZone.occupant = holdingPen.occupant;
                 clickedZone.occupant.location = clickedZone.location;
                 holdingPen.occupant = null;
@@ -84,26 +90,30 @@ namespace ZooManager
                     // Don't activate animals since user didn't get to do anything
                 }
             }
+            // Generate a new mouse and insect in the game after each turn.
             generativeMouse();
+            generativeInsect();
+            // Decrease the turn count by one after each turn.
             turnCount--;
+            // Check the win condition after each turn to see if the game has ended.
             winCondition();
         }
 
-
-        static public void generativeMouse()
+     static public void generativeMouse()
         {
             Random random = new Random();
-            // For each turn, generate new insect with 50%
-            if (random.Next(0, 2) == 1)
+            // For each turn, generate new mouse with 0-3
+            if (random.Next(0, 4) == 1)
             {
                 bool foundEmptyZone = false;
+                // Looking for an empty zone in the animalZones grid to place a new Mouse object
                 while (!foundEmptyZone)
                 {
                     int x = random.Next(0, numCellsX);
                     int y = random.Next(0, numCellsY);
                     if (animalZones[y][x].occupant == null)
                     {
-                        Mouse newMouse = new Mouse("Squeak");
+                        Mouse newMouse = new Mouse("Sneaky");
                         animalZones[y][x].occupant = newMouse;
                         Console.WriteLine("Generated a new mouse at: (" + x + ", " + y + ")");
                         foundEmptyZone = true;
@@ -113,13 +123,14 @@ namespace ZooManager
         }
         static public void generativeInsect()
         {
-            // For each turn, 50% to generate new insect
+            // For each turn,  to generate new insect with 0-2
             Random random = new Random();
-            if (random.Next(0, 2) == 1)
+            if (random.Next(0, 4) == 1)
             {
                 bool emptyZone = false;
                 while (!emptyZone)
                 {
+                    // Looking for an empty zone in the animalZones grid to place a new Insect object
                     int x = random.Next(0, numCellsX);
                     int y = random.Next(0, numCellsY);
                     if (animalZones[y][x].occupant == null)
@@ -135,12 +146,13 @@ namespace ZooManager
         static public void generateObject()
         {
             Random random = new Random();
-            int numBoulders = random.Next(3, 6);
-            int numGrass = random.Next(3, 6);
+            int numBoulders = random.Next(3, 7);
+            int numGrass = random.Next(3, 7);
 
             for (int i = 0; i < numBoulders; i++)
             {
                 bool emptyZone = false;
+                // Looking for an empty zone in the animalZones grid to place a new  boulders
                 while (!emptyZone)
                 {
                     int x = random.Next(0, numCellsX);
@@ -158,6 +170,7 @@ namespace ZooManager
             for (int i = 0; i < numGrass; i++)
             {
                 bool foundEmptyZone = false;
+                // Looking for an empty zone in the animalZones grid to place a new grasses
                 while (!foundEmptyZone)
                 {
                     int x = random.Next(0, numCellsX);
@@ -174,40 +187,44 @@ namespace ZooManager
         }
 
 
+        //Tuple Ref:https://learn.microsoft.com/en-us/dotnet/api/system.tuple-2?view=net-8.0
         static public void AddToHolding(string occupantType)
         {
             if (holdingPen.occupant != null) return;
             if (occupantType == "cat")
             {
-                if (catCount >= 8)
+                if (catCount >= 6)
                 {
-                    // Create a list of all the cats' positions gor over 8 cats
+                    // Create a list of all the cats' positions gor over 6 cats
                     List<Tuple<int, int>> catPositions = new List<Tuple<int, int>>();
                     for (int y = 0; y < numCellsY; y++)
                     {
+                        // Check if the occupant of the current grid is a Cat.
                         for (int x = 0; x < numCellsX; x++)
                         {
                             if (animalZones[y][x].occupant is Cat)
                             {
+                               // add the current position the list of cat positions
                                 catPositions.Add(new Tuple<int, int>(y, x));
                             }
                         }
                     }
 
-                    // Randomly select a cat to remove if over 8 cats
+                    // Randomly select a cat to remove if over 6 cats
                     Random rand = new Random();
                     int index = rand.Next(catPositions.Count);
-                    Tuple<int, int> selectedCatPosition = catPositions[index];
-                    animalZones[selectedCatPosition.Item1][selectedCatPosition.Item2].occupant = null;
+                    //specific cat’s position
+                    Tuple<int, int> selectCatPosition = catPositions[index];
+                    animalZones[selectCatPosition.Item1][selectCatPosition.Item2].occupant = null;
                     catCount--;
-                    Console.WriteLine("Randomly removed a cat due to over limit.");
+                    Console.WriteLine("Randomly removed a cats.");
                 }
                 holdingPen.occupant = new Cat("Fluffy");
                 catCount++;
             }
             if (occupantType == "snake")
             {
-                if (snakeCount >= 8)
+                if (snakeCount >= 6)
                 {
                     // Create a list of all the snakes' positions
                     List<Tuple<int, int>> snakePositions = new List<Tuple<int, int>>();
@@ -215,8 +232,10 @@ namespace ZooManager
                     {
                         for (int x = 0; x < numCellsX; x++)
                         {
+                            // Check if the occupant of the current grid is a Snake.
                             if (animalZones[y][x].occupant is Snake)
-                            {
+                            {                               
+                                // Add the current position the list of snake positions
                                 snakePositions.Add(new Tuple<int, int>(y, x));
                             }
                         }
@@ -225,10 +244,11 @@ namespace ZooManager
                     // Randomly select a snake to remove
                     Random rand = new Random();
                     int index = rand.Next(snakePositions.Count);
-                    Tuple<int, int> selectedSnakePosition = snakePositions[index];
-                    animalZones[selectedSnakePosition.Item1][selectedSnakePosition.Item2].occupant = null;
+                    //specific snake’s position
+                    Tuple<int, int> selectSnakePosition = snakePositions[index];
+                    animalZones[selectSnakePosition.Item1][selectSnakePosition.Item2].occupant = null;
                     snakeCount--;
-                    Console.WriteLine("Randomly removed a snake due to over limit.");
+                    Console.WriteLine("Randomly removed a snakes.");
                 }
                 holdingPen.occupant = new Snake("Slither");
                 snakeCount++;
@@ -374,7 +394,8 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x}, {y - 1}");
-                                if (new Random().NextDouble() < 0.05)
+                                // 30% chance to spawn a Insect
+                                if (new Random().NextDouble() < 0.3)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y - 1][x].occupant = newInsect;
@@ -387,7 +408,8 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x}, {y + 1}");
-                                if (new Random().NextDouble() < 0.05)
+                                // 30% chance to spawn a Insect
+                                if (new Random().NextDouble() < 0.3)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y + 1][x].occupant = newInsect;
@@ -400,7 +422,8 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x - 1}, {y}");
-                                if (new Random().NextDouble() < 0.05)
+                                // 30% chance to spawn a Insect
+                                if (new Random().NextDouble() < 0.3)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x - 1].occupant = newInsect;
@@ -413,7 +436,8 @@ namespace ZooManager
                                 // Cat eats the mouse
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the mouse at {x + 1}, {y}");
-                                if (new Random().NextDouble() < 0.05)
+                                // 30% chance to spawn a Insect
+                                if (new Random().NextDouble() < 0.3)
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x + 1].occupant = newInsect;
@@ -598,6 +622,8 @@ namespace ZooManager
             }
             return false; // fallback
         }
+
+        // For Animal kileed by objects, for now is Insects
         public static void Die(Insect insect, int x, int y)
         {
             Console.WriteLine("The insect has encountered a boulder and died.");
@@ -639,6 +665,7 @@ namespace ZooManager
             }
         }
 
+        // Checks if the game has been won or lost.
         public static bool winCondition()
         {
             int insectCount = 0;
@@ -647,6 +674,7 @@ namespace ZooManager
             {
                 foreach (var zone in row)
                 {
+                    // If the occupant of the current zone is an Insect or Mouse, increment the insect counter.
                     if (zone.occupant is Insect)
                     {
                         insectCount++;
@@ -657,20 +685,27 @@ namespace ZooManager
                     }
                 }
             }
+
+            // If there are no insects and no mice left within 20 turns, player wins, otherwise, player lose by gameEnd
             if (insectCount == 0 && mouseCount == 0)
             {
                 gameEnd = true;
                 gameWin = true;
+                winCount++;
+                Console.WriteLine("You wins !");
+
             }
             if (turnCount <= 0)
             {
                 gameEnd = true;
+                loseCount++;
                 Console.WriteLine("You have no more turns, You lose !");
             }
 
             return gameEnd;
         }
 
+        // Resets the game to its initial state.
         public static void resetGame()
         {
             animalZones.Clear();

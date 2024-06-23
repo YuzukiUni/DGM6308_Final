@@ -19,7 +19,8 @@ namespace ZooManager
             if (!Hunt()) Flee(); 
 
         }
-       
+
+        // If there's a cat above and no boulder, try to retreat.
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "cat") && !Game.Seek(location.x, location.y, Direction.up, "boulder"))
@@ -41,6 +42,7 @@ namespace ZooManager
             return false;
         }
 
+        // If there's grass above and no boulder, try to attack.
         public bool Hunt()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "grass") && !Game.Seek(location.x, location.y, Direction.up, "boulder"))

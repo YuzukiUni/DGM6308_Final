@@ -60,11 +60,13 @@ namespace ZooManager
         // Check if the blocked zone is on the edge of the grid or in the center.
         public bool IsEdge()
         {
-            return location.x == 0 || location.x == numCellsX - 1 ||
-                   location.y == 0 || location.y == numCellsY - 1 ||
+            return
                    (location.x >= numCellsX / 2 - 1 && location.x <= numCellsX / 2 + 1 &&
-                    location.y >= numCellsY / 2 - 1 && location.y <= numCellsY / 2 + 1);
+                    location.y >= numCellsY / 2 - 1 && location.y <= numCellsY / 2 + 1) ||
+                   (location.x == numCellsX / 2 && location.y == numCellsY / 2 - 2) ||
+                   (location.x == numCellsX / 2 && location.y == numCellsY / 2 + 2);
         }
+
     }
 }
 

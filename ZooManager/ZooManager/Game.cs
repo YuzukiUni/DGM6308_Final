@@ -126,7 +126,6 @@ namespace ZooManager
             ActivateAnimals();
         }
 
-
         // Randomly generate mouse
         static public void generativeMouse()
         {
@@ -296,7 +295,7 @@ namespace ZooManager
                         Console.WriteLine("Randomly removed a snake.");
                     }
                 }
-                holdingPen.occupant = new Snake("Slither");
+                holdingPen.occupant = new Snake("Snake");
                 snakeCount++;
             }
 
@@ -386,6 +385,7 @@ namespace ZooManager
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y - 1][x].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass...");
                                 }
                             }
                             break;
@@ -401,7 +401,8 @@ namespace ZooManager
                                 if (new Random().NextDouble() < 0.5)
                                 {
                                     Grass newGrass = new Grass();
-                                    animalZones[y +1][x].occupant = newGrass;
+                                    animalZones[y +1][x].occupant = newGrass; 
+                                    Console.WriteLine("Spawning Grass...");
                                 }
                             }
                             break;
@@ -418,6 +419,7 @@ namespace ZooManager
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x - 1].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass...");
                                 }
                             }
                             break;
@@ -433,6 +435,7 @@ namespace ZooManager
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x +1].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass...");
                                 }
                             }
                             break;
@@ -453,6 +456,7 @@ namespace ZooManager
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y - 1][x].occupant = newInsect;
+                                    Console.WriteLine("Spawning Insect...");
                                 }
                             }
                             break;
@@ -467,6 +471,7 @@ namespace ZooManager
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y + 1][x].occupant = newInsect;
+                                    Console.WriteLine("Spawning Insect...");
                                 }
                             }
                             break;
@@ -481,6 +486,7 @@ namespace ZooManager
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x - 1].occupant = newInsect;
+                                    Console.WriteLine("Spawning Insect...");
                                 }
                             }
                             break;
@@ -495,6 +501,7 @@ namespace ZooManager
                                 {
                                     Insect newInsect = Insect.spawnInsect();
                                     animalZones[y][x + 1].occupant = newInsect;
+                                    Console.WriteLine("Spawning Insect...");
                                 }
                             }
                             break;
@@ -509,6 +516,7 @@ namespace ZooManager
                             if (y >= 1 && animalZones[y - 1][x].occupant is Cat && !animalZones[y - 1][x].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
                                 // 10% chance to spawn a Grass object
@@ -516,11 +524,13 @@ namespace ZooManager
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y - 1][x].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             else if (y >= 2 && animalZones[y - 2][x].occupant is Cat && !animalZones[y - 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 2}");
                                 animalZones[y - 2][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 2}");
                                 // 10% chance to spawn a Grass object
@@ -528,6 +538,7 @@ namespace ZooManager
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y - 2][x].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             break;
@@ -535,25 +546,31 @@ namespace ZooManager
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Cat && !animalZones[y + 1][x].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     Grass newGrass = new Grass();
                                     animalZones[y + 1][x].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             else if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat && !animalZones[y + 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
                                 animalZones[y + 2][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     animalZones[y + 2][x].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             break;
@@ -561,25 +578,31 @@ namespace ZooManager
                             if (x >= 1 && animalZones[y][x - 1].occupant is Cat && !animalZones[y][x - 1].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     animalZones[y][x - 1].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             else if (x >= 2 && animalZones[y][x - 2].occupant is Cat && !animalZones[y][x - 2].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x - 2}, {y}");
                                 animalZones[y][x - 2].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 2}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     animalZones[y][x - 2].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             break;
@@ -587,25 +610,31 @@ namespace ZooManager
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Cat && !animalZones[y][x + 1].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     Grass newGrass = new Grass();
                                     animalZones[y][x + 1].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             else if (x < numCellsX - 2 && animalZones[y][x + 2].occupant is Cat && !animalZones[y][x + 2].IsBlocked)
                             {
                                 // Insect eats the cat
+                                Console.WriteLine($"{attacker.name} eats the cat at {x + 2}, {y}");
                                 animalZones[y][x + 2].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 2}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     Grass newGrass = new Grass();
                                     animalZones[y][x + 2].occupant = newGrass;
+                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
                             }
                             break;

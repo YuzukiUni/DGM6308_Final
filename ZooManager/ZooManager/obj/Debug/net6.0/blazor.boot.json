@@ -1,7 +1,7 @@
 {
   "entryAssembly": "ZooManager",
   "resources": {
-    "hash": "sha256-+7dwM80A5IvF9LvoeAXxGRNYBqCCRVd4RJMa0nDqDcg=",
+    "hash": "sha256-0SLH1/Heo6hUcKMVLfJN7qy6zfxeEnGxN5Epvy0zqxQ=",
     "runtime": {
       "dotnet.6.0.29.lcv1zqvuu8.js": "sha256-BV1wi9qAMCmpfZ+aXPplngN3cFgig0bFqWhNad3R5Lo=",
       "dotnet.timezones.blat": "sha256-csJ9EjcYXaAQrYK1S5WLY51YBLmp7zcST7wH0IDbvgg=",
@@ -200,10 +200,10 @@
       "mscorlib.dll": "sha256-Dq0ZWn1Dzc/UAPz/NgCNG1XJX8rhBI5c5/jpgKXDF6U=",
       "netstandard.dll": "sha256-7BfApPnkIIxITLLgPNqPbmPRBWu7G/WB0oxp+DOlY0w=",
       "System.Private.CoreLib.dll": "sha256-/IakvE+iRudxlHbw47DUw2QUemsywWIigQHWe/Pxv7U=",
-      "ZooManager.dll": "sha256-rTqwbUTSgfV3kGMVsjqoCq0Qq2TjMTVbaHpinFFfoY8="
+      "ZooManager.dll": "sha256-dtt0C+L+/cFLbZyQ0+dBZPzLJ2DazLc79HxfsJJlHVw="
     },
     "pdb": {
-      "ZooManager.pdb": "sha256-QEVII83gjxEDuij9z/SjI8bi533WToGQBqryk4s6PRo="
+      "ZooManager.pdb": "sha256-/VlocmU1/bH6Bdi1hom0hojJKLxN0xNeQdDekUCZqgo="
     },
     "runtimeAssets": {
       "dotnet.wasm": {

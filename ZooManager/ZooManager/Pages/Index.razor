@@ -261,8 +261,10 @@
 @code {
     public int turnCount = 20;
     private DotNetObjectReference<Index> objRef;
-    private Game game;  
+    private Game game;
 
+    // Ref:https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
+    // Ref: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/?view=aspnetcore-8.0
     protected override async Task OnInitializedAsync()
     {
         objRef = DotNetObjectReference.Create(this);

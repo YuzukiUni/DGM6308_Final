@@ -22,7 +22,6 @@ namespace ZooManager
         public static int loseCount { get; private set; } = 0;
         public static List<Animal> animals = new List<Animal>();
 
-
         public Game()
         {
             SetUpGame();
@@ -332,7 +331,9 @@ namespace ZooManager
                 }
             }
         }
-        static public bool Seek(int x, int y, Direction d, string target, int range = 1)
+
+        //Ref:https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.seek?view=net-8.0
+        static public bool Seek(int x, int y, Direction d, string target, string seeker, int range = 1)
         {
             for (int i = 0; i < range; i++)
             {
@@ -352,7 +353,10 @@ namespace ZooManager
                         break;
                 }
                 if (y < 0 || x < 0 || y > numCellsY - 1 || x > numCellsX - 1) return false;
-                if (animalZones[y][x].occupant == null) return false;
+                // continue searching when encountering an empty zone
+                if (animalZones[y][x].occupant == null) continue; 
+                if (animalZones[y][x].occupant.species == "grass" && (seeker == "insect" || seeker == "snake")) continue; // insects and snakes can pass through grass
+                if (animalZones[y][x].occupant.species == "boulder" && seeker == "snake") continue; // snakes can pass through boulders
                 if (animalZones[y][x].occupant.species == target)
                 {
                     return true;
@@ -360,6 +364,7 @@ namespace ZooManager
             }
             return false;
         }
+
 
         public static void Attack(Animal attacker, Direction d)
         {
@@ -682,34 +687,42 @@ namespace ZooManager
                     break;
             }
         }
-      
+
         static public bool Retreat(Animal runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");
             int x = runner.location.x;
             int y = runner.location.y;
-
             switch (d)
             {
+                // If the animal isn't at the four edges of the grids or above is either empty
+                // Or contains grass (and the animal is an insect or a snake)
+                // Or a boulder (and the animal is a snake),the animal will cover it.
                 case Direction.up:
-                    if (y > 0 && (animalZones[y - 1][x].occupant == null || (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake))))
+                  
+                    if (y > 0 && (animalZones[y - 1][x].occupant == null ||
+                                  (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
+                                  (animalZones[y - 1][x].occupant is Boulder && runner is Snake)))
                     {
-                        if (animalZones[y - 1][x].occupant is Grass)
+                        if (animalZones[y - 1][x].occupant is Grass || animalZones[y - 1][x].occupant is Boulder)
                         {
                             animalZones[y - 1][x].occupant.CoveredBy = runner;
                         }
-                        else
+                        // The animal will simply move into the grids.
                         {
                             animalZones[y - 1][x].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
-                        return true; // retreat was successful
+                        return true; // The retreat was successful.
                     }
-                    return false; // retreat was not successful
+                    return false; // The retreat was not successful.
+
                 case Direction.down:
-                    if (y < numCellsY - 1 && (animalZones[y + 1][x].occupant == null || (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Snake))))
+                    if (y < numCellsY - 1 && (animalZones[y + 1][x].occupant == null ||
+                                              (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
+                                              (animalZones[y + 1][x].occupant is Boulder && runner is Snake)))
                     {
-                        if (animalZones[y + 1][x].occupant is Grass)
+                        if (animalZones[y + 1][x].occupant is Grass || animalZones[y + 1][x].occupant is Boulder)
                         {
                             animalZones[y + 1][x].occupant.CoveredBy = runner;
                         }
@@ -722,9 +735,11 @@ namespace ZooManager
                     }
                     return false;
                 case Direction.left:
-                    if (x > 0 && (animalZones[y][x - 1].occupant == null || (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Snake))))
+                    if (x > 0 && (animalZones[y][x - 1].occupant == null ||
+                                  (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
+                                  (animalZones[y][x - 1].occupant is Boulder && runner is Snake)))
                     {
-                        if (animalZones[y][x - 1].occupant is Grass)
+                        if (animalZones[y][x - 1].occupant is Grass || animalZones[y][x - 1].occupant is Boulder)
                         {
                             animalZones[y][x - 1].occupant.CoveredBy = runner;
                         }
@@ -737,9 +752,11 @@ namespace ZooManager
                     }
                     return false;
                 case Direction.right:
-                    if (x < numCellsX - 1 && (animalZones[y][x + 1].occupant == null || (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Snake))))
+                    if (x < numCellsX - 1 && (animalZones[y][x + 1].occupant == null ||
+                                              (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
+                                              (animalZones[y][x + 1].occupant is Boulder && runner is Snake)))
                     {
-                        if (animalZones[y][x + 1].occupant is Grass)
+                        if (animalZones[y][x + 1].occupant is Grass || animalZones[y][x + 1].occupant is Boulder)
                         {
                             animalZones[y][x + 1].occupant.CoveredBy = runner;
                         }
@@ -752,8 +769,10 @@ namespace ZooManager
                     }
                     return false;
             }
-            return false; // fallback
+            return false; // Fallback return value in case none of the cases in the switch statement match.
         }
+
+
 
         // For Animal kileed by objects, for now is Insects
         public static void Die(Insect insect, int x, int y)

@@ -20,6 +20,8 @@ namespace ZooManager
         public static bool gameEnd = false;
         public static int winCount { get; private set; } = 0;
         public static int loseCount { get; private set; } = 0;
+        public static List<Animal> animals = new List<Animal>();
+
 
         public Game()
         {
@@ -43,10 +45,10 @@ namespace ZooManager
                 animalZones.Add(rowList);
             }
 
-            // Generate Mice and Insect 4-6 total
+            // Generate Mice and Insect 2-4 total
             Random random = new Random();
-            int totalMice = random.Next(2, 4); // Generate a random number between 2 and 4 for mice
-            int totalInsects = random.Next(2, 4); // Generate a random number between 2 and 4 for insects
+            int totalMice = random.Next(2, 5); // Generate a random number between 2 and 4 for mice
+            int totalInsects = random.Next(2, 5); // Generate a random number between 2 and 4 for insects
 
             // Generate the mice
             for (int i = 0; i < totalMice; i++)
@@ -100,9 +102,7 @@ namespace ZooManager
                     // Don't activate animals since user didn't get to do anything
                 }
             }
-            // Generate a new mouse and insect in the game after each turn.
-            generativeMouse();
-            generativeInsect();
+   
             // Decrease the turn count by one after each turn.
             turnCount--;
             // Check the win condition after each turn to see if the game has ended.
@@ -110,17 +110,22 @@ namespace ZooManager
         }
         public static void endTurn()
         {
-            // At the end of each turn, randomly generate 0-1 mouse or 0-1 insect
+            // At the end of each turn, randomly decide whether to generate a mouse, an insect, or nothing
             Random random = new Random();
-            if (random.Next(0, 2) == 0)
+            double chance = random.NextDouble(); // Generate a random number between 0.0 and 1.0
+            if (chance < 0.2) // 20% chance to generate a mouse
             {
                 generativeMouse();
             }
-            else
+            else if (chance >= 0.2 && chance < 0.4) // 20% chance to generate an insect
             {
                 generativeInsect();
             }
+
+            // Activate each animal's behavior
+            ActivateAnimals();
         }
+
 
         // Randomly generate mouse
         static public void generativeMouse()
@@ -246,15 +251,17 @@ namespace ZooManager
                             }
                         }
                     }
-
-                    // Randomly select a cat to remove if over 6 cats
-                    Random rand = new Random();
-                    int index = rand.Next(catPositions.Count);
-                    //specific cat’s position
-                    Tuple<int, int> selectCatPosition = catPositions[index];
-                    animalZones[selectCatPosition.Item1][selectCatPosition.Item2].occupant = null;
-                    catCount--;
-                    Console.WriteLine("Randomly removed a cats.");
+                    // If there are any cat positions,randomly select one of them.
+                    if (catPositions.Count > 0)
+                    {
+                        Random rand = new Random();
+                        int index = rand.Next(catPositions.Count);
+                        // Remove the cat at the selected position.
+                        Tuple<int, int> selectCatPosition = catPositions[index];
+                        animalZones[selectCatPosition.Item1][selectCatPosition.Item2].occupant = null;
+                        catCount--;
+                        Console.WriteLine("Randomly removed a cat.");
+                    }
                 }
                 holdingPen.occupant = new Cat("Fluffy");
                 catCount++;
@@ -277,15 +284,17 @@ namespace ZooManager
                             }
                         }
                     }
-
-                    // Randomly select a snake to remove
-                    Random rand = new Random();
-                    int index = rand.Next(snakePositions.Count);
-                    //specific snake’s position
-                    Tuple<int, int> selectSnakePosition = snakePositions[index];
-                    animalZones[selectSnakePosition.Item1][selectSnakePosition.Item2].occupant = null;
-                    snakeCount--;
-                    Console.WriteLine("Randomly removed a snakes.");
+                    // If there are any snake positions,randomly select one of them.
+                    if (snakePositions.Count > 0)
+                    {
+                        Random rand = new Random();
+                        int index = rand.Next(snakePositions.Count);
+                        // Remove the snake at the selected position.
+                        Tuple<int, int> selectSnakePosition = snakePositions[index];
+                        animalZones[selectSnakePosition.Item1][selectSnakePosition.Item2].occupant = null;
+                        snakeCount--;
+                        Console.WriteLine("Randomly removed a snake.");
+                    }
                 }
                 holdingPen.occupant = new Snake("Slither");
                 snakeCount++;
@@ -302,6 +311,10 @@ namespace ZooManager
                 holdingPen.occupant = boulder;
                 Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
             }
+            // After adding the new occupant, activate all animals
+            Console.WriteLine("Start to activate all animals...");
+            ActivateAnimals();
+            Console.WriteLine("Activate all animals...");
         }
         public static void ActivateAnimals()
         {
@@ -320,31 +333,35 @@ namespace ZooManager
                 }
             }
         }
-        static public bool Seek(int x, int y, Direction d, string target)
+        static public bool Seek(int x, int y, Direction d, string target, int range = 1)
         {
-            switch (d)
+            for (int i = 0; i < range; i++)
             {
-                case Direction.up:
-                    y--;
-                    break;
-                case Direction.down:
-                    y++;
-                    break;
-                case Direction.left:
-                    x--;
-                    break;
-                case Direction.right:
-                    x++;
-                    break;
-            }
-            if (y < 0 || x < 0 || y > numCellsY - 1 || x > numCellsX - 1) return false;
-            if (animalZones[y][x].occupant == null) return false;
-            if (animalZones[y][x].occupant.species == target)
-            {
-                return true;
+                switch (d)
+                {
+                    case Direction.up:
+                        y--;
+                        break;
+                    case Direction.down:
+                        y++;
+                        break;
+                    case Direction.left:
+                        x--;
+                        break;
+                    case Direction.right:
+                        x++;
+                        break;
+                }
+                if (y < 0 || x < 0 || y > numCellsY - 1 || x > numCellsX - 1) return false;
+                if (animalZones[y][x].occupant == null) return false;
+                if (animalZones[y][x].occupant.species == target)
+                {
+                    return true;
+                }
             }
             return false;
         }
+
         public static void Attack(Animal attacker, Direction d)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
@@ -364,8 +381,8 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y - 1}");
-                                // 20% chance to spawn a Grass
-                                if (new Random().NextDouble() < 0.2)
+                                // 50% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.5)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y - 1][x].occupant = newGrass;
@@ -380,8 +397,8 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x}, {y + 1}");
-                                // 20% chance to spawn a Grass
-                                if (new Random().NextDouble() < 0.2)
+                                // 250% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.5)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y +1][x].occupant = newGrass;
@@ -396,8 +413,8 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x - 1}, {y}");
-                                // 20% chance to spawn a Grass
-                                if (new Random().NextDouble() < 0.2)
+                                // 50% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.5)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x - 1].occupant = newGrass;
@@ -411,8 +428,8 @@ namespace ZooManager
                                 // Snake eats the insect
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the insect at {x + 1}, {y}");
-                                // 20% chance to spawn a Grass
-                                if (new Random().NextDouble() < 0.2)
+                                // 50% chance to spawn a Grass
+                                if (new Random().NextDouble() < 0.5)
                                 {
                                     Grass newGrass = new Grass();
                                     animalZones[y][x +1].occupant = newGrass;
@@ -489,7 +506,19 @@ namespace ZooManager
                     switch (d)
                     {
                         case Direction.up:
-                            if (y > 1 && animalZones[y - 2][x].occupant is Cat)
+                            if (y >= 1 && animalZones[y - 1][x].occupant is Cat && !animalZones[y - 1][x].IsBlocked)
+                            {
+                                // Insect eats the cat
+                                animalZones[y - 1][x].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y - 1][x].occupant = newGrass;
+                                }
+                            }
+                            else if (y >= 2 && animalZones[y - 2][x].occupant is Cat && !animalZones[y - 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
                                 animalZones[y - 2][x].occupant = null;
@@ -503,7 +532,19 @@ namespace ZooManager
                             }
                             break;
                         case Direction.down:
-                            if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat)
+                            if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Cat && !animalZones[y + 1][x].IsBlocked)
+                            {
+                                // Insect eats the cat
+                                animalZones[y + 1][x].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y + 1][x].occupant = newGrass;
+                                }
+                            }
+                            else if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat && !animalZones[y + 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
                                 animalZones[y + 2][x].occupant = null;
@@ -517,7 +558,19 @@ namespace ZooManager
                             }
                             break;
                         case Direction.left:
-                            if (x > 1 && animalZones[y][x - 2].occupant is Cat)
+                            if (x >= 1 && animalZones[y][x - 1].occupant is Cat && !animalZones[y][x - 1].IsBlocked)
+                            {
+                                // Insect eats the cat
+                                animalZones[y][x - 1].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y][x - 1].occupant = newGrass;
+                                }
+                            }
+                            else if (x >= 2 && animalZones[y][x - 2].occupant is Cat && !animalZones[y][x - 2].IsBlocked)
                             {
                                 // Insect eats the cat
                                 animalZones[y][x - 2].occupant = null;
@@ -531,7 +584,19 @@ namespace ZooManager
                             }
                             break;
                         case Direction.right:
-                            if (x < numCellsX - 2 && animalZones[y][x + 2].occupant is Cat)
+                            if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Cat && !animalZones[y][x + 1].IsBlocked)
+                            {
+                                // Insect eats the cat
+                                animalZones[y][x + 1].occupant = null;
+                                Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
+                                // 10% chance to spawn a Grass object
+                                if (new Random().NextDouble() < 0.1)
+                                {
+                                    Grass newGrass = new Grass();
+                                    animalZones[y][x + 1].occupant = newGrass;
+                                }
+                            }
+                            else if (x < numCellsX - 2 && animalZones[y][x + 2].occupant is Cat && !animalZones[y][x + 2].IsBlocked)
                             {
                                 // Insect eats the cat
                                 animalZones[y][x + 2].occupant = null;
@@ -546,6 +611,8 @@ namespace ZooManager
                             break;
                     }
                     break;
+
+
                 case Mouse mouse:
                     // Mouse's attack behavior
                     switch (d)
@@ -584,7 +651,6 @@ namespace ZooManager
                             break;
                     }
                     break;
-
             }
         }
       

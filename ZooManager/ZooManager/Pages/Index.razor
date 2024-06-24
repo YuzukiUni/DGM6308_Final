@@ -45,6 +45,7 @@
     }
 
     ul li {
+        list-style-type:none;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 20px;
         color: darkgoldenrod;
@@ -281,9 +282,15 @@
     {
         turnCount--;
         Game.endTurn();
+
+        // After ending the turn, activate all animals
+        Console.WriteLine("Start to activate all animals...");
+        Game.ActivateAnimals();
+        Console.WriteLine("Activate all animals...");
         Game.turnCount = turnCount;
         StateHasChanged();
     }
+
     // Ref:https://learn.microsoft.com/zh-cn/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-8.0
     [JSInvokable]
     // Play can input key to restart the game

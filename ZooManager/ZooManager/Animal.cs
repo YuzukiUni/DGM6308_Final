@@ -10,7 +10,5 @@ namespace ZooManager
         {
             Console.WriteLine($"Animal {name} at {location.x},{location.y} activated");
         }
-        
-
     }
 }

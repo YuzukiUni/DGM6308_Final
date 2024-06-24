@@ -58,28 +58,52 @@ namespace ZooManager
 
         public bool Hunt()
         {
-            if (Game.Seek(location.x, location.y, Direction.up, "cat"))
+            // Check one square in each direction
+            if (Game.Seek(location.x, location.y, Direction.up, "cat", 1))
             {
                 Game.Attack(this, Direction.up);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.down, "cat"))
+            else if (Game.Seek(location.x, location.y, Direction.down, "cat", 1))
             {
                 Game.Attack(this, Direction.down);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.left, "cat"))
+            else if (Game.Seek(location.x, location.y, Direction.left, "cat", 1))
             {
                 Game.Attack(this, Direction.left);
                 return true;
             }
-            else if (Game.Seek(location.x, location.y, Direction.right, "cat"))
+            else if (Game.Seek(location.x, location.y, Direction.right, "cat", 1))
+            {
+                Game.Attack(this, Direction.right);
+                return true;
+            }
+            // Check two squares in each direction
+            else if (Game.Seek(location.x, location.y, Direction.up, "cat", 2))
+            {
+                Game.Attack(this, Direction.up);
+                return true;
+            }
+            else if (Game.Seek(location.x, location.y, Direction.down, "cat", 2))
+            {
+                Game.Attack(this, Direction.down);
+                return true;
+            }
+            else if (Game.Seek(location.x, location.y, Direction.left, "cat", 2))
+            {
+                Game.Attack(this, Direction.left);
+                return true;
+            }
+            else if (Game.Seek(location.x, location.y, Direction.right, "cat", 2))
             {
                 Game.Attack(this, Direction.right);
                 return true;
             }
             return false;
         }
+
+
         // Spawning Insect if mouse killed by cat
         public static Insect spawnInsect()
         {

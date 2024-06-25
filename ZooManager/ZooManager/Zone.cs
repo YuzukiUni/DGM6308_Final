@@ -4,8 +4,8 @@ namespace ZooManager
 {
     public class Zone
     {
-        public static int numCellsX = 11; 
-        public static int numCellsY = 11; 
+        public static int numCellsX = 11;
+        public static int numCellsY = 11;
         private Occupant _occupant = null;
 
         public Occupant occupant
@@ -60,11 +60,7 @@ namespace ZooManager
         // Check if the blocked zone is on the edge of the grid or in the center.
         public bool IsEdge()
         {
-            return
-                   (location.x >= numCellsX / 2 - 1 && location.x <= numCellsX / 2 + 1 &&
-                    location.y >= numCellsY / 2 - 1 && location.y <= numCellsY / 2 + 1) ||
-                   (location.x == numCellsX / 2 && location.y == numCellsY / 2 - 2) ||
-                   (location.x == numCellsX / 2 && location.y == numCellsY / 2 + 2);
+            return IsBlocked;
         }
 
     }

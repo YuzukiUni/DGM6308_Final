@@ -32,6 +32,7 @@ namespace ZooManager
         {
             // Clear the game for each round
             animalZones.Clear();
+
             // Note one-line variation of for loop below!
             for (var y = 0; y < numCellsY; y++)
             {
@@ -39,13 +40,10 @@ namespace ZooManager
                 for (var x = 0; x < numCellsX; x++)
                 {
                     Zone zone = new Zone(x, y);
-                    // Set the zone as blocked if it is on the edge of the game grid.
-                    zone.IsBlocked = zone.IsEdge();
                     rowList.Add(zone);
                 }
                 animalZones.Add(rowList);
             }
-
             // Generate Mice and Insect 2-4 total
             Random random = new Random();
             int totalMice = random.Next(2, 5); // Generate a random number between 2 and 4 for mice
@@ -56,19 +54,43 @@ namespace ZooManager
             {
                 generativeMouse();
                 mouseCount++;
-
             }
-
             // Generate the insects
             for (int i = 0; i < totalInsects; i++)
             {
                 generativeInsect();
                 insectCount++;
             }
-
             // Generate objects
             generateObject();
+            // Generate 10 unique blocked locations randomly at the beginning
+            //Ref:https://learn.microsoft.com/en-us/dotnet/api/system.windows.point?view=windowsdesktop-8.0
+            List<Point> blockedGrid = new List<Point>();
+            while (blockedGrid.Count < 10)
+            {
+                // Generate a random x and y of the game grid
+                int x = random.Next(numCellsX);
+                int y = random.Next(numCellsY);
+                Point newPoint = new Point { x = x, y = y };
+                // Check if the new generated block grid is a duplicate, if so , generate new one
+                bool isDuplicate = false;
+                foreach (var point in blockedGrid)
+                {
+                    if (point.x == newPoint.x && point.y == newPoint.y)
+                    {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+
+                if (!isDuplicate)
+                {
+                    blockedGrid.Add(newPoint);
+                    animalZones[y][x].IsBlocked = true;
+                }
+            }
         }
+
 
         public static void ZoneClick(Zone clickedZone)
         {

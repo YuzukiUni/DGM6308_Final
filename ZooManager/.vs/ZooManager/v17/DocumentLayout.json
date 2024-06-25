@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\zone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\zone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\snake.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\snake.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\point.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\point.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,24 +35,12 @@
       "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\mouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\snake.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\snake.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\cat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\cat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\point.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|solutionrelative:zoomanager\\point.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{01DAD351-492C-4C06-B718-4047D008F3ED}|ZooManager\\ZooManager.csproj|c:\\users\\unila\\onedrive\\documents\\github\\dgm6308_final\\zoomanager\\zoomanager\\boulder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -106,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -122,10 +122,6 @@
               "IsPinned": true
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 18,
               "Title": "App.razor",
@@ -139,20 +135,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Game.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Game.cs",
               "RelativeDocumentMoniker": "ZooManager\\Game.cs",
               "ToolTip": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Game.cs",
               "RelativeToolTip": "ZooManager\\Game.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAiwEYAAAAJAAAA",
+              "ViewState": "AQIAAH8DAAAAAAAAAAAAAC0AAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-19T09:08:47.66Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Insect.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Insect.cs",
               "RelativeDocumentMoniker": "ZooManager\\Insect.cs",
@@ -160,12 +156,11 @@
               "RelativeToolTip": "ZooManager\\Insect.cs",
               "ViewState": "AQIAAHwAAAAAAAAAAAAAAH8AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T03:52:50.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T03:52:50.686Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Program.cs",
               "RelativeDocumentMoniker": "ZooManager\\Program.cs",
@@ -173,8 +168,7 @@
               "RelativeToolTip": "ZooManager\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T04:40:20.088Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T04:40:20.088Z"
             },
             {
               "$type": "Document",
@@ -190,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Mouse.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Mouse.cs",
               "RelativeDocumentMoniker": "ZooManager\\Mouse.cs",
@@ -198,8 +192,7 @@
               "RelativeToolTip": "ZooManager\\Mouse.cs",
               "ViewState": "AQIAADsAAAAAAAAAAAA1wEMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T04:20:36.467Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T04:20:36.467Z"
             },
             {
               "$type": "Document",
@@ -215,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Cat.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Cat.cs",
               "RelativeDocumentMoniker": "ZooManager\\Cat.cs",
@@ -239,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 4,
               "Title": "Point.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Point.cs",
               "RelativeDocumentMoniker": "ZooManager\\Point.cs",
@@ -247,11 +240,12 @@
               "RelativeToolTip": "ZooManager\\Point.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T04:43:29.932Z"
+              "WhenOpened": "2024-06-15T04:43:29.932Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Snake.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Snake.cs",
               "RelativeDocumentMoniker": "ZooManager\\Snake.cs",
@@ -276,26 +270,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Zone.cs",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Zone.cs",
               "RelativeDocumentMoniker": "ZooManager\\Zone.cs",
               "ToolTip": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Zone.cs",
               "RelativeToolTip": "ZooManager\\Zone.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAuwCUAAAANAAAA",
+              "ViewState": "AQIAADIAAAAAAAAAAAA1wEIAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-15T05:00:40.295Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Index.razor",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "ZooManager\\Pages\\Index.razor",
               "ToolTip": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Pages\\Index.razor",
               "RelativeToolTip": "ZooManager\\Pages\\Index.razor",
-              "ViewState": "AQIAAIoAAAAAAAAAAAAAAJAAAAAhAAAA",
+              "ViewState": "AQIAALEAAAAAAAAAAAAzwMQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-15T03:46:57.614Z",
               "EditorCaption": ""
@@ -386,7 +380,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_Imports.razor",
               "DocumentMoniker": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\_Imports.razor",
               "RelativeDocumentMoniker": "ZooManager\\_Imports.razor",
@@ -407,6 +401,10 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-06-14T23:29:42.565Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

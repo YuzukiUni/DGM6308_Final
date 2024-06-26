@@ -44,10 +44,10 @@ namespace ZooManager
                 }
                 animalZones.Add(rowList);
             }
-            // Generate Mice and Insect 2-4 total
+            // Generate Mice and Insect 3-5total
             Random random = new Random();
-            int totalMice = random.Next(2, 5); // Generate a random number between 2 and 4 for mice
-            int totalInsects = random.Next(2, 5); // Generate a random number between 2 and 4 for insects
+            int totalMice = random.Next(3, 6); // Generate a random number between 3 and 5 for mice
+            int totalInsects = random.Next(3, 6); // Generate a random number between 3 and 5 for insects
 
             // Generate the mice
             for (int i = 0; i < totalMice; i++)
@@ -64,15 +64,14 @@ namespace ZooManager
             // Generate objects
             generateObject();
             // Generate 10 unique blocked locations randomly at the beginning
-            //Ref:https://learn.microsoft.com/en-us/dotnet/api/system.windows.point?view=windowsdesktop-8.0
             List<Point> blockedGrid = new List<Point>();
-            while (blockedGrid.Count < 10)
+            while (blockedGrid.Count <12)
             {
                 // Generate a random x and y of the game grid
                 int x = random.Next(numCellsX);
                 int y = random.Next(numCellsY);
                 Point newPoint = new Point { x = x, y = y };
-                // Check if the new generated block grid is a duplicate, if so , generate new one
+                // Check if the new generated block grid is a duplicate or occupied, if so , generate new one
                 bool isDuplicate = false;
                 foreach (var point in blockedGrid)
                 {
@@ -83,16 +82,20 @@ namespace ZooManager
                     }
                 }
 
-                if (!isDuplicate)
+                if (!isDuplicate && animalZones[y][x].occupant == null)
                 {
                     blockedGrid.Add(newPoint);
                     animalZones[y][x].IsBlocked = true;
                 }
+                else if (animalZones[y][x].occupant is Insect || animalZones[y][x].occupant is Mouse)
+                {
+                    blockedDeath(animalZones[y][x].occupant);
+                }
+
             }
         }
 
-
-        public static void ZoneClick(Zone clickedZone)
+            public static void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
             Console.WriteLine(clickedZone.emoji == "" ? "none" : clickedZone.emoji);
@@ -139,13 +142,13 @@ namespace ZooManager
             // At the end of each turn, randomly decide whether to generate a mouse, an insect, or nothing
             Random random = new Random();
             double chance = random.NextDouble(); // Generate a random number between 0.0 and 1.0
-            if (chance < 0.2) // 20% chance to generate a mouse
+            if (chance < 0.1) // 20% chance to generate a mouse
             {
                 generativeMouse();
                 mouseCount++;
 
             }
-            else if (chance >= 0.2 && chance < 0.4) // 20% chance to generate an insect
+            else if (chance >= 0.1 && chance < 0.2) // 20% chance to generate an insect
             {
                 generativeInsect();
                 insectCount++;
@@ -345,7 +348,7 @@ namespace ZooManager
             // After adding the new occupant, activate all animals
             Console.WriteLine("Start to activate all animals...");
             ActivateAnimals();
-            Console.WriteLine("Activate all animals...");
+            Console.WriteLine("all animals...");
         }
         public static void ActivateAnimals()
         {
@@ -358,33 +361,19 @@ namespace ZooManager
                         var zone = animalZones[y][x];
                         if (zone.occupant as Animal != null && ((Animal)zone.occupant).reactionTime == r)
                         {
-                            // Check if the occupant is a mouse or an insect
-                            bool isMouse = zone.occupant is Mouse;
-                            bool isInsect = zone.occupant is Insect;
-
                             // Activate the occupant
                             ((Animal)zone.occupant).Activate();
 
-                            // If the occupant is at the edge (IsBlocked), decrease the count
+                            // If the occupant is at the edge (IsBlocked), handle its death
                             if (zone.IsBlocked)
                             {
-                                if (isMouse)
-                                {
-                                    mouseCount--;
-                                }
-                                else if (isInsect)
-                                {
-                                    insectCount--;
-                                }
-                                // Remove the occupant
-                                zone.occupant = null;
+                                blockedDeath(zone.occupant);
                             }
                         }
                     }
                 }
             }
         }
-
 
         //Ref:https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.seek?view=net-8.0
         static public bool Seek(int x, int y, Direction d, string target, string seeker, int range = 1)
@@ -562,7 +551,6 @@ namespace ZooManager
                             if (y >= 1 && animalZones[y - 1][x].occupant is Cat && !animalZones[y - 1][x].IsBlocked)
                             {
                                 // Insect eats the cat
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
                                 animalZones[y - 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 1}");
                                 // 10% chance to spawn a Grass object
@@ -576,7 +564,6 @@ namespace ZooManager
                             else if (y >= 2 && animalZones[y - 2][x].occupant is Cat && !animalZones[y - 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 2}");
                                 animalZones[y - 2][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y - 2}");
                                 // 10% chance to spawn a Grass object
@@ -592,13 +579,11 @@ namespace ZooManager
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Cat && !animalZones[y + 1][x].IsBlocked)
                             {
                                 // Insect eats the cat
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
-                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     Grass newGrass = new Grass();
                                     animalZones[y + 1][x].occupant = newGrass;
                                     Console.WriteLine("Spawning Grass for Cats Dead...");
@@ -607,14 +592,12 @@ namespace ZooManager
                             else if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat && !animalZones[y + 2][x].IsBlocked)
                             {
                                 // Insect eats the cat
-                                Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
                                 animalZones[y + 2][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     animalZones[y + 2][x].occupant = newGrass;
                                     Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
@@ -624,14 +607,12 @@ namespace ZooManager
                             if (x >= 1 && animalZones[y][x - 1].occupant is Cat && !animalZones[y][x - 1].IsBlocked)
                             {
                                 // Insect eats the cat
-                                Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
                                 // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
-                                    Console.WriteLine("Spawning Grass for Cats Dead...");
                                     animalZones[y][x - 1].occupant = newGrass;
                                     Console.WriteLine("Spawning Grass for Cats Dead...");
                                 }
@@ -728,6 +709,31 @@ namespace ZooManager
                     break;
             }
         }
+        public static void blockedDeath(Occupant occupant)
+        {
+            // Check if the occupant is an Animal
+            if (occupant is Animal animal)
+            {
+                // Check if the animal is at a blocked location (Mouse, Insects)
+                if (animalZones[animal.location.y][animal.location.x].IsBlocked)
+                {
+                    if (animal is Insect)
+                    {
+                        insectCount--;
+                        Console.WriteLine("Insect removed. Current insect count: " + insectCount);
+                    }
+                    else if (animal is Mouse)
+                    {
+                        mouseCount--;
+                        Console.WriteLine("Mouse removed. Current mouse count: " + mouseCount);
+                    }
+
+                    // Remove the animal from the game
+                    animals.Remove(animal);
+                    animalZones[animal.location.y][animal.location.x].occupant = null;
+                }
+            }
+        }
 
         static public bool Retreat(Animal runner, Direction d)
         {
@@ -740,7 +746,6 @@ namespace ZooManager
                 // Or contains grass (and the animal is an insect or a snake)
                 // Or a boulder (and the animal is a snake),the animal will cover it.
                 case Direction.up:
-                  
                     if (y > 0 && (animalZones[y - 1][x].occupant == null ||
                                   (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
                                   (animalZones[y - 1][x].occupant is Boulder && runner is Snake)))
@@ -749,11 +754,21 @@ namespace ZooManager
                         {
                             animalZones[y - 1][x].occupant.CoveredBy = runner;
                         }
-                        // The animal will simply move into the grids.
+                        else
                         {
                             animalZones[y - 1][x].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
+
+                        // Update the runner's location for retreat animal
+                        runner.location.y = y - 1;
+                        runner.location.x = x;
+
+                        // Check if the new location is blocked, if so, removed it
+                        if (animalZones[y - 1][x].IsBlocked)
+                        {
+                                blockedDeath(runner);
+                        }
                         return true; // The retreat was successful.
                     }
                     return false; // The retreat was not successful.
@@ -772,9 +787,20 @@ namespace ZooManager
                             animalZones[y + 1][x].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
-                        return true;
+
+                        // Update the runner's location
+                        runner.location.y = y + 1;
+                        runner.location.x = x;
+
+                        // Check if the new location is blocked
+                        if (animalZones[y + 1][x].IsBlocked)
+                        {
+                            blockedDeath(runner);
+                        }
+                        return true; // The retreat was successful.
                     }
-                    return false;
+                    return false; // The retreat was not successful.
+
                 case Direction.left:
                     if (x > 0 && (animalZones[y][x - 1].occupant == null ||
                                   (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
@@ -789,9 +815,19 @@ namespace ZooManager
                             animalZones[y][x - 1].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
-                        return true;
+
+                        // Update the runner's location
+                        runner.location.y = y;
+                        runner.location.x = x - 1;
+
+                        // Check if the new location is blocked
+                        if (animalZones[y][x - 1].IsBlocked)
+                        {
+                            blockedDeath(runner);
+                        }
+                        return true; // The retreat was successful.
                     }
-                    return false;
+                    return false; // The retreat was not successful.
                 case Direction.right:
                     if (x < numCellsX - 1 && (animalZones[y][x + 1].occupant == null ||
                                               (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
@@ -806,25 +842,36 @@ namespace ZooManager
                             animalZones[y][x + 1].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
-                        return true;
+
+                        // Update the runner's location
+                        runner.location.y = y;
+                        runner.location.x = x + 1;
+
+                        // Check if the new location is blocked
+                        if (animalZones[y][x + 1].IsBlocked)
+                        {
+                            blockedDeath(runner);
+                        }
+                        return true; // The retreat was successful.
                     }
-                    return false;
+                    return false; // The retreat was not successful.
             }
             return false; 
         }
 
-        // For Animal kileed by objects, for now is Insects
+        // For Animal kileed by objects------Insects
         public static void Die(Insect insect, int x, int y)
         {
-            Console.WriteLine("The insect has encountered a boulder and died.");
             // Remove the insect from the game
             animalZones[y][x].occupant = null;
             insectCount--;
+            Console.WriteLine("The insect has encountered a boulder and died.");
+
             // 50% chance to spawn a new Insect in random direction
             if (new Random().NextDouble() < 0.5)
             {
                 Insect newInsect = Insect.spawnInsect();
-                Console.WriteLine("Respawing New Insects, Vomm!");
+                Console.WriteLine("Respawning New Insects, Vomm!");
                 insectCount++;
                 // Randomly choose a direction
                 Direction d = (Direction)new Random().Next(4); 
@@ -901,6 +948,8 @@ namespace ZooManager
         {
             animalZones.Clear();
             turnCount = 20;
+            insectCount = 0;
+            mouseCount = 0;
             gameEnd = false;
             gameWin = false;
             SetUpGame();

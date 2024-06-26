@@ -16,7 +16,6 @@ namespace ZooManager
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am an insect. Vomm.");
             if (encounterBoulder()) Game.Die(this, location.x, location.y);
             else if (Pass()) 
             Console.WriteLine("I am an insect. I can pass through grass.");

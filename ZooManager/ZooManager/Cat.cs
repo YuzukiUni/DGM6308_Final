@@ -14,7 +14,6 @@
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am a cat. Meow.");
             if (!Hunt()) Flee();
             avoidBoulder();
         }

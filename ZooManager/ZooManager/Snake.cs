@@ -13,7 +13,6 @@
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am a snake. Voodoo.");
             if (!Hunt()) Flee();
             if (Pass()) Console.WriteLine("I am a snake. I can pass through grass and boulders.");
         }

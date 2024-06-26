@@ -15,7 +15,6 @@ namespace ZooManager
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am a mouse. Squeak.");
             if (!Hunt()) Flee(); 
 
         }

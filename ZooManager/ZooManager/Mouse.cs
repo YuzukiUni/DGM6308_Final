@@ -18,7 +18,7 @@ namespace ZooManager
             if (!Hunt()) Flee(); 
 
         }
-
+        // Follow Game.cs seek and retreat
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "cat", "mouse") && !Game.Seek(location.x, location.y, Direction.up, "boulder", "mouse"))

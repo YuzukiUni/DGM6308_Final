@@ -17,6 +17,7 @@
             if (Pass()) Console.WriteLine("I am a snake. I can pass through grass and boulders.");
         }
 
+        // Follow Game.cs seek and retreat
         public bool Pass()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "grass", "snake") ||

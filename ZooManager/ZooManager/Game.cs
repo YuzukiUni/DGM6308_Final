@@ -128,32 +128,27 @@ namespace ZooManager
                 else
                 {
                     Console.WriteLine("Could not place animal.");
-                    // Don't activate animals since user didn't get to do anything
                 }
             }
-   
-            // Decrease the turn count by one after each turn.
             turnCount--;
-            // Check the win condition after each turn to see if the game has ended.
             winCondition();
         }
+
         public static void endTurn()
         {
             // At the end of each turn, randomly decide whether to generate a mouse, an insect, or nothing
             Random random = new Random();
-            double chance = random.NextDouble(); // Generate a random number between 0.0 and 1.0
-            if (chance < 0.1) // 20% chance to generate a mouse
+            double chance = random.NextDouble(); 
+            if (chance < 0.15) // 15% chance to generate a mouse
             {
                 generativeMouse();
                 mouseCount++;
-
             }
-            else if (chance >= 0.1 && chance < 0.2) // 20% chance to generate an insect
+            else if (chance >= 0.15 && chance < 0.3) // 15% chance to generate an insect
             {
                 generativeInsect();
                 insectCount++;
             }
-
             // Activate each animal's behavior
             ActivateAnimals();
         }
@@ -177,13 +172,11 @@ namespace ZooManager
             // If there are any empty and unblocked zones, place a new Mouse
             if (emptyZones.Count > 0)
             {
-                int index = random.Next(emptyZones.Count);
+                int indexZone = random.Next(emptyZones.Count);
                 Mouse newMouse = new Mouse("Sneaky");
-                emptyZones[index].occupant = newMouse;
-                Console.WriteLine("Generated a new mouse at: (" + emptyZones[index].location.x + ", " + emptyZones[index].location.y + ")");
+                emptyZones[indexZone].occupant = newMouse;
+                Console.WriteLine("Generated a new mouse at: (" + emptyZones[indexZone].location.x + ", " + emptyZones[indexZone].location.y + ")");
             }
-
-            // Increase the count of mice
         }
 
         // Randomly generate insect
@@ -205,10 +198,10 @@ namespace ZooManager
             // If there are any empty and unblocked zones, place a new Insect
             if (emptyZones.Count > 0)
             {
-                int index = random.Next(emptyZones.Count);
+                int indexZone = random.Next(emptyZones.Count);
                 Insect newInsect = new Insect("Vomm");
-                emptyZones[index].occupant = newInsect;
-                Console.WriteLine("Generated a new insect at: (" + emptyZones[index].location.x + ", " + emptyZones[index].location.y + ")");
+                emptyZones[indexZone].occupant = newInsect;
+                Console.WriteLine("Generated a new insect at: (" + emptyZones[indexZone].location.x + ", " + emptyZones[indexZone].location.y + ")");
             }
         }
 
@@ -750,6 +743,7 @@ namespace ZooManager
                                   (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
                                   (animalZones[y - 1][x].occupant is Boulder && runner is Snake)))
                     {
+                        // If the cell above contains grass or a boulder, the animal will cover (Pass through)
                         if (animalZones[y - 1][x].occupant is Grass || animalZones[y - 1][x].occupant is Boulder)
                         {
                             animalZones[y - 1][x].occupant.CoveredBy = runner;
@@ -859,7 +853,7 @@ namespace ZooManager
             return false; 
         }
 
-        // For Animal kileed by objects------Insects
+        // For Animal killed by objects------Insects
         public static void Die(Insect insect, int x, int y)
         {
             // Remove the insect from the game

@@ -17,6 +17,7 @@
             if (!Hunt()) Flee();
             avoidBoulder();
         }
+        // Follow Game.cs seek and retreat
         public bool Flee()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "snake", "cat"))

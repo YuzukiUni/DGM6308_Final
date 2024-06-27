@@ -106,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
@@ -122,10 +122,6 @@
               "IsPinned": true
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "Snake.cs",
@@ -135,8 +131,7 @@
               "RelativeToolTip": "ZooManager\\Snake.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T04:24:30.876Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T04:24:30.876Z"
             },
             {
               "$type": "Document",
@@ -148,8 +143,7 @@
               "RelativeToolTip": "ZooManager\\Zone.cs",
               "ViewState": "AQIAACcAAAAAAAAAAAAowA0AAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T05:00:40.295Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T05:00:40.295Z"
             },
             {
               "$type": "Document",
@@ -173,8 +167,7 @@
               "RelativeToolTip": "ZooManager\\Insect.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T03:52:50.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T03:52:50.686Z"
             },
             {
               "$type": "Document",
@@ -184,7 +177,7 @@
               "RelativeDocumentMoniker": "ZooManager\\Game.cs",
               "ToolTip": "C:\\Users\\unila\\OneDrive\\Documents\\GitHub\\DGM6308_Final\\ZooManager\\ZooManager\\Game.cs",
               "RelativeToolTip": "ZooManager\\Game.cs",
-              "ViewState": "AQIAABcAAAAAAAAAAAAYwGkDAAAqAAAA",
+              "ViewState": "AQIAAKwDAAAAAAAAAABAwLIDAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-19T09:08:47.66Z",
               "EditorCaption": ""
@@ -199,8 +192,7 @@
               "RelativeToolTip": "ZooManager\\Grass.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T03:55:13.319Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T03:55:13.319Z"
             },
             {
               "$type": "Document",
@@ -212,8 +204,7 @@
               "RelativeToolTip": "ZooManager\\Cat.cs",
               "ViewState": "AQIAAAcAAAAAAAAAAAAywBAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T03:47:45.204Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T03:47:45.204Z"
             },
             {
               "$type": "Document",
@@ -225,8 +216,7 @@
               "RelativeToolTip": "ZooManager\\Mouse.cs",
               "ViewState": "AQIAAAEAAAAAAAAAAADwvxEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T04:20:36.467Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T04:20:36.467Z"
             },
             {
               "$type": "Document",
@@ -238,8 +228,7 @@
               "RelativeToolTip": "ZooManager\\Animal.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-18T03:46:10.716Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-18T03:46:10.716Z"
             },
             {
               "$type": "Document",
@@ -299,8 +288,7 @@
               "RelativeToolTip": "ZooManager\\Pages\\Index.razor",
               "ViewState": "AQIAABYBAAAAAAAAAAAAAMQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-15T03:46:57.614Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T03:46:57.614Z"
             },
             {
               "$type": "Document",
@@ -409,6 +397,10 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-06-14T23:29:42.565Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

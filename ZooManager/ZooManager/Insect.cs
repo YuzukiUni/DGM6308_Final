@@ -36,6 +36,7 @@ namespace ZooManager
             return false;
         }
 
+        // Insect can pass the grass
         public bool Pass()
         {
             if (Game.Seek(location.x, location.y, Direction.up, "grass", "insect") ||
@@ -47,6 +48,8 @@ namespace ZooManager
             }
             return false;
         }
+
+        // Follow Game.cs seek and retreat
 
         public bool Flee()
         {

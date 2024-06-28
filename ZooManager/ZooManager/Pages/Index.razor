@@ -275,7 +275,7 @@
 </div>
 </div>
 @code {
-    public int turnCount = 20;
+    public int turnCount = 15;
     private DotNetObjectReference<Index> objRef;
     private Game game;
 
@@ -317,7 +317,7 @@
         if (Game.gameEnd && (key == "y" || key == "Y"))
         {
             Game.resetGame();
-            turnCount = 20;  
+            turnCount = 15;  
             await InvokeAsync(StateHasChanged);  
             Console.WriteLine("Game Loading...");
         }

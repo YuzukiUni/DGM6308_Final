@@ -269,18 +269,18 @@ namespace ZooManager
                     List<Tuple<int, int>> catPositions = new List<Tuple<int, int>>();
                     for (int y = 0; y < numCellsY; y++)
                     {
-                        // Check if the occupant of the current grid is a Cat.
+                        // Check if the occupant of the current grid is a cat
                         for (int x = 0; x < numCellsX; x++)
                         {
                             if (animalZones[y][x].occupant is Cat)
                             {
-                               // add the current position the list of cat positions
+                               // Add the current position the list of cat positions
                                 catPositions.Add(new Tuple<int, int>(y, x));
                             }
                         }
                     }
                     // If there are any cat positions,randomly select one of them.
-                    if (catPositions.Count >=6)
+                    if (catPositions.Count >=5)
                     {
                         Random rand = new Random();
                         int index = rand.Next(catPositions.Count);
@@ -296,7 +296,7 @@ namespace ZooManager
             }
             if (occupantType == "snake")
             {
-                if (snakeCount >= 6)
+                if (snakeCount >= 5)
                 {
                     // Create a list of all the snakes' positions
                     List<Tuple<int, int>> snakePositions = new List<Tuple<int, int>>();
@@ -432,13 +432,10 @@ namespace ZooManager
                         case Direction.down:
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Insect)
                             {
-                                // Check if the insect can retreat
                                 if (!Retreat((Animal)animalZones[y + 1][x].occupant, Direction.up))
                                 {
-                                    // Snake eats the insect
                                     animalZones[y + 1][x].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the insect at {x}, {y + 1}");
-                                    // Decrease the count of insects
                                     insectCount--;
                                 }
                             }
@@ -446,13 +443,10 @@ namespace ZooManager
                         case Direction.left:
                             if (x > 0 && animalZones[y][x - 1].occupant is Insect)
                             {
-                                // Check if the insect can retreat
                                 if (!Retreat((Animal)animalZones[y][x-1].occupant, Direction.right))
                                 {
-                                    // Snake eats the insect
                                     animalZones[y][x - 1].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the insect at {x - 1}, {y}");
-                                    // Decrease the count of insects
                                     insectCount--;
                                 }
                             }
@@ -460,13 +454,10 @@ namespace ZooManager
                         case Direction.right:
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Insect)
                             {
-                                // Check if the insect can retreat
                                 if (!Retreat((Animal)animalZones[y][x+1].occupant, Direction.left))
                                 {
-                                    // Snake eats the insect
                                     animalZones[y][x + 1].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the insect at {x + 1}, {y}");
-                                    // Decrease the count of insects
                                     insectCount--;
                                 }
                             }
@@ -495,13 +486,10 @@ namespace ZooManager
                         case Direction.down:
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Mouse)
                             {
-                                // Check if the mouse can retreat
                                 if (!Retreat((Animal)animalZones[y + 1][x].occupant, Direction.up))
                                 {
-                                    // Cat eats the mouse
                                     animalZones[y + 1][x].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the mouse at {x}, {y + 1}");
-                                    // Decrease the count of mice
                                     mouseCount--;
                                 }
                             }
@@ -509,27 +497,23 @@ namespace ZooManager
                         case Direction.left:
                             if (x > 0 && animalZones[y][x - 1].occupant is Mouse)
                             {
-                                // Check if the mouse can retreat
                                 if (!Retreat((Animal)animalZones[y][x - 1].occupant, Direction.right))
                                 {
-                                    // Cat eats the mouse
                                     animalZones[y][x - 1].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the mouse at {x - 1}, {y}");
-                                    // Decrease the count of mice
                                     mouseCount--;
                                 }
                             }
                             break;
+
                         case Direction.right:
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Mouse)
                             {
-                                // Check if the mouse can retreat
                                 if (!Retreat((Animal)animalZones[y][x + 1].occupant, Direction.left))
                                 {
-                                    // Cat eats the mouse
                                     animalZones[y][x + 1].occupant = null;
                                     Console.WriteLine($"{attacker.name} eats the mouse at {x + 1}, {y}");
-                                    // Decrease the count of mice
+                                    //  the count of mice
                                     mouseCount--;
                                 }
                             }
@@ -572,10 +556,8 @@ namespace ZooManager
                         case Direction.down:
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Cat && !animalZones[y + 1][x].IsBlocked)
                             {
-                                // Insect eats the cat
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 1}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
@@ -585,10 +567,8 @@ namespace ZooManager
                             }
                             else if (y < numCellsY - 2 && animalZones[y + 2][x].occupant is Cat && !animalZones[y + 2][x].IsBlocked)
                             {
-                                // Insect eats the cat
                                 animalZones[y + 2][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x}, {y + 2}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
@@ -600,10 +580,8 @@ namespace ZooManager
                         case Direction.left:
                             if (x >= 1 && animalZones[y][x - 1].occupant is Cat && !animalZones[y][x - 1].IsBlocked)
                             {
-                                // Insect eats the cat
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 1}, {y}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
@@ -613,11 +591,9 @@ namespace ZooManager
                             }
                             else if (x >= 2 && animalZones[y][x - 2].occupant is Cat && !animalZones[y][x - 2].IsBlocked)
                             {
-                                // Insect eats the cat
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 2}, {y}");
                                 animalZones[y][x - 2].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x - 2}, {y}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Grass newGrass = new Grass();
@@ -630,11 +606,9 @@ namespace ZooManager
                         case Direction.right:
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Cat && !animalZones[y][x + 1].IsBlocked)
                             {
-                                // Insect eats the cat
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 1}, {y}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Console.WriteLine("Spawning Grass for Cats Dead...");
@@ -645,11 +619,9 @@ namespace ZooManager
                             }
                             else if (x < numCellsX - 2 && animalZones[y][x + 2].occupant is Cat && !animalZones[y][x + 2].IsBlocked)
                             {
-                                // Insect eats the cat
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 2}, {y}");
                                 animalZones[y][x + 2].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the cat at {x + 2}, {y}");
-                                // 10% chance to spawn a Grass object
                                 if (new Random().NextDouble() < 0.1)
                                 {
                                     Console.WriteLine("Spawning Grass for Cats Dead...");
@@ -678,7 +650,6 @@ namespace ZooManager
                         case Direction.down:
                             if (y < numCellsY - 1 && animalZones[y + 1][x].occupant is Grass)
                             {
-                                // Mouse eats the grass
                                 animalZones[y + 1][x].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the grass at {x}, {y + 1}");
                             }
@@ -686,7 +657,6 @@ namespace ZooManager
                         case Direction.left:
                             if (x > 0 && animalZones[y][x - 1].occupant is Grass)
                             {
-                                // Mouse eats the grass
                                 animalZones[y][x - 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the grass at {x - 1}, {y}");
                             }
@@ -694,7 +664,6 @@ namespace ZooManager
                         case Direction.right:
                             if (x < numCellsX - 1 && animalZones[y][x + 1].occupant is Grass)
                             {
-                                // Mouse eats the grass
                                 animalZones[y][x + 1].occupant = null;
                                 Console.WriteLine($"{attacker.name} eats the grass at {x + 1}, {y}");
                             }
@@ -738,45 +707,75 @@ namespace ZooManager
             switch (d)
             {
                 case Direction.up:
+                    // Check the animal retreat movement
                     if (y > 0 && (animalZones[y - 1][x].occupant == null ||
-                                  (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
-                                  (animalZones[y - 1][x].occupant is Boulder && runner is Snake)))
+                                (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Mouse)) ||
+                                (animalZones[y - 1][x].occupant is Boulder && runner is Snake)))
                     {
+                        // If there is a Boulder for Insect, the Insect dies
                         if (animalZones[y - 1][x].occupant is Boulder && runner is Insect)
                         {
-                            // If the top grid has rocks and the and the insect try to retreat, then the insect dies.
                             Die(runner as Insect, x, y - 1);
-                            return false; // The retreat was not successful.
+                            return false; 
                         }
+                        // If there is Grass and Insect or a Mouse,  tries to pass through the grass
+                        if (animalZones[y - 1][x].occupant is Grass && (runner is Insect || runner is Mouse))
+                        {
+                            // Check if the grid after the Grass is empty
+                            if (y > 1 && animalZones[y - 2][x].occupant == null)
+                            {
+                                animalZones[y - 2][x].occupant = runner;
+                                animalZones[y][x].occupant = null;
+                                runner.location.y = y - 2;
+                                runner.location.x = x;
+                                return true; 
+                            }
+                            return false; 
+                        }
+                        // If there is Grass or a Boulder, covers it
                         if (animalZones[y - 1][x].occupant is Grass || animalZones[y - 1][x].occupant is Boulder)
                         {
                             animalZones[y - 1][x].occupant.CoveredBy = runner;
                         }
                         else
                         {
+                            // Move to the new location
                             animalZones[y - 1][x].occupant = runner;
                         }
                         animalZones[y][x].occupant = null;
+                        // Update the location after retreat
                         runner.location.y = y - 1;
                         runner.location.x = x;
+                        // If the new location is blocked grid, the insects and mouse dies
                         if (animalZones[y - 1][x].IsBlocked)
                         {
                             blockedDeath(runner);
                         }
-                        return true; // The retreat was successful.
+                        return true;
                     }
-                    return false; // The retreat was not successful.
+                    return false; 
 
                 case Direction.down:
                     if (y < numCellsY - 1 && (animalZones[y + 1][x].occupant == null ||
-                                              (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Snake)) ||
-                                              (animalZones[y + 1][x].occupant is Boulder && runner is Snake)))
+                                (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Mouse)) ||
+                                (animalZones[y + 1][x].occupant is Boulder && runner is Snake)))
                     {
-                        // If the bottom grid has rocks and the and the insect try to retreat, then the insect dies.
                         if (animalZones[y + 1][x].occupant is Boulder && runner is Insect)
                         {
                             Die(runner as Insect, x, y + 1);
-                            return false; // The retreat was not successful.
+                            return false;
+                        }
+                        if (animalZones[y + 1][x].occupant is Grass && (runner is Insect || runner is Mouse))
+                        {
+                            if (y < numCellsY - 2 && animalZones[y + 2][x].occupant == null)
+                            {
+                                animalZones[y + 2][x].occupant = runner;
+                                animalZones[y][x].occupant = null;
+                                runner.location.y = y + 2;
+                                runner.location.x = x;
+                                return true;
+                            }
+                            return false;
                         }
                         if (animalZones[y + 1][x].occupant is Grass || animalZones[y + 1][x].occupant is Boulder)
                         {
@@ -793,20 +792,31 @@ namespace ZooManager
                         {
                             blockedDeath(runner);
                         }
-                        return true; // The retreat was successful.
+                        return true;
                     }
-                    return false; // The retreat was not successful.
+                    return false;
 
                 case Direction.left:
                     if (x > 0 && (animalZones[y][x - 1].occupant == null ||
-                                  (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
-                                  (animalZones[y][x - 1].occupant is Boulder && runner is Snake)))
+                                (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Mouse)) ||
+                                (animalZones[y][x - 1].occupant is Boulder && runner is Snake)))
                     {
                         if (animalZones[y][x - 1].occupant is Boulder && runner is Insect)
                         {
-                            // If the left grid has rocks and the and the insect try to retreat, then the insect dies.
                             Die(runner as Insect, x - 1, y);
-                            return false; // The retreat was not successful.
+                            return false;
+                        }
+                        if (animalZones[y][x - 1].occupant is Grass && (runner is Insect || runner is Mouse))
+                        {
+                            if (x > 1 && animalZones[y][x - 2].occupant == null)
+                            {
+                                animalZones[y][x - 2].occupant = runner;
+                                animalZones[y][x].occupant = null;
+                                runner.location.y = y;
+                                runner.location.x = x - 2;
+                                return true;
+                            }
+                            return false;
                         }
                         if (animalZones[y][x - 1].occupant is Grass || animalZones[y][x - 1].occupant is Boulder)
                         {
@@ -823,20 +833,31 @@ namespace ZooManager
                         {
                             blockedDeath(runner);
                         }
-                        return true; // The retreat was successful.
+                        return true;
                     }
-                    return false; // The retreat was not successful.
+                    return false;
 
                 case Direction.right:
                     if (x < numCellsX - 1 && (animalZones[y][x + 1].occupant == null ||
-                                              (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Snake)) ||
-                                              (animalZones[y][x + 1].occupant is Boulder && runner is Snake)))
+                                (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Mouse)) ||
+                                (animalZones[y][x + 1].occupant is Boulder && runner is Snake)))
                     {
                         if (animalZones[y][x + 1].occupant is Boulder && runner is Insect)
                         {
-                            // If the right grid has rocks and the and the insect try to retreat, then the insect dies.
                             Die(runner as Insect, x + 1, y);
-                            return false; // The retreat was not successful.
+                            return false;
+                        }
+                        if (animalZones[y][x + 1].occupant is Grass && (runner is Insect || runner is Mouse))
+                        {
+                            if (x < numCellsX - 2 && animalZones[y][x + 2].occupant == null)
+                            {
+                                animalZones[y][x + 2].occupant = runner;
+                                animalZones[y][x].occupant = null;
+                                runner.location.y = y;
+                                runner.location.x = x + 2;
+                                return true;
+                            }
+                            return false;
                         }
                         if (animalZones[y][x + 1].occupant is Grass || animalZones[y][x + 1].occupant is Boulder)
                         {
@@ -853,9 +874,9 @@ namespace ZooManager
                         {
                             blockedDeath(runner);
                         }
-                        return true; // The retreat was successful.
+                        return true;
                     }
-                    return false; // The retreat was not successful.
+                    return false;
             }
             return false;
         }
@@ -916,7 +937,7 @@ namespace ZooManager
             {
                 foreach (var zone in row)
                 {
-                    // If the occupant of the current zone is an Insect or Mouse, increment the insect counter.
+                    // If the occupant of the current zone is an Insect or Mouse, count++
                     if (zone.occupant is Insect)
                     {
                         insectCount++;
